@@ -11,4 +11,6 @@ This integrates Ozone with Ranger security policies.
 kinit admin
 ``` 
 
-
+```bash
+kinit admin
+``` 
