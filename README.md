@@ -36,6 +36,14 @@ Valid starting       Expires              Service principal
 
 
 ### Ozone fs
+Summary operations
+- interact with hdfs
+- interact with ozone
+- create a volume
+- create a bucket
+- push data to a bucket
+- delete data from a bucket
+
 
 ```console
 ozone fs -ls /
@@ -80,6 +88,10 @@ ozone fs -put /tmp/cloudera-scm-agent.log ofs://ozone/vol1/bucket1
 
 
 # Lab 3 Bucket options FSO / OBS
+Summary:
+- 3 bucket layouts and why
+- create a bucket FSO, obs
+
 
 # Lab 4 data copy HDFS ⇔ Ozone
 
@@ -89,3 +101,6 @@ Summary
 - distcp operations hdfs dataset to ozone
 - crc checksum validation via a spark-submit job
 
+# Lab 5 Hive & Spark on base
+
+# Lab 6 Ozone S3 gateway
