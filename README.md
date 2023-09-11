@@ -41,3 +41,17 @@ VIEW THE BLOG
         background-color: #0074D9;
     }
 </style>
+
+
+
+
+
+%%html
+<style>
+    .blue {
+        background-color: #0074D9;
+    }
+    .green {
+        background-color: #2ECC40;
+    }
+</style>
