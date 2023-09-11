@@ -33,6 +33,7 @@ Default principal: admin@WORKSHOP.COM
 Valid starting       Expires              Service principal
 09/11/2023 16:23:20  09/11/2023 17:23:20  krbtgt/WORKSHOP.COM@WORKSHOP.COM renew until 09/12/2023 16:23:20
 `
+
 ```console
 ozone fs -ls /
 ```
@@ -44,7 +45,6 @@ drwxrwxrwt   - hdfs  supergroup          0 2023-09-09 13:19 /tmp
 drwxr-xr-x   - hdfs  supergroup          0 2023-09-09 13:17 /user
 drwxr-xr-x   - hdfs  supergroup          0 2023-09-09 13:10 /warehouse
 drwxr-xr-x   - hdfs  supergroup          0 2023-09-09 13:10 /yarn
-
 
 ```console
 ozone fs -ls ofs://ozone/
