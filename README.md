@@ -34,6 +34,9 @@ Valid starting       Expires              Service principal
 09/11/2023 16:23:20  09/11/2023 17:23:20  krbtgt/WORKSHOP.COM@WORKSHOP.COM renew until 09/12/2023 16:23:20
 `
 
+
+### Ozone fs
+
 ```console
 ozone fs -ls /
 ```
@@ -72,3 +75,4 @@ sudo cp /var/log/cloudera-scm-agent/cloudera-scm-agent.log /tmp/cloudera-scm-age
 ozone fs -put /tmp/cloudera-scm-agent.log ofs://ozone/vol1/bucket1
 ```
 
+### Ozone sh
