@@ -1,4 +1,4 @@
-# Lab 1
+# Lab 1 Security
 
 ## Enable and Configure Ranger
 Go to the Ozone service, then select the Configuration tab.
