@@ -7,6 +7,6 @@ This integrates Ozone with Ranger security policies.
 
 
 
-'''
+```
 kinit bob
-'''
+```
