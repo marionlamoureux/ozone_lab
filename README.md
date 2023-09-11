@@ -19,4 +19,5 @@ INFO rpc.RpcClient: Creating Volume: testperms, with admin as owner and space qu
 
 ```bash
 >>>ozone sh volume create /testperms
+INFO rpc.RpcClient: Creating Volume: testperms, with admin as owner and space quota set to -1 bytes, counts quota set to -1
 ```
