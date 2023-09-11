@@ -32,3 +32,6 @@ At the command prompt, type ```kinit admin```
 VIEW THE BLOG
 </div>
 
+<div class="blue">
+    This markdown cell is blue.
+</div>
