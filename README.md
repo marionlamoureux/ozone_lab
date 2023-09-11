@@ -25,4 +25,4 @@ INFO rpc.RpcClient: Creating Volume: testperms, with admin as owner and space qu
 At the command prompt, type ```kinit admin```
 
 
-<span style="color:blue"> Some *blue* text </span>
+<span style="background-color:black"> Some *blue* text </span>
