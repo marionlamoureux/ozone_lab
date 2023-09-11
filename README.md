@@ -25,4 +25,4 @@ At the command prompt, type ```kinit admin```
 
 ```sh
 kinit admin
-\``` 
+``` 
