@@ -23,6 +23,6 @@ INFO rpc.RpcClient: Creating Volume: testperms, with admin as owner and space qu
 At the command prompt, type ```kinit admin```
 
 
-```bash
+```sh
 kinit admin
 \``` 
