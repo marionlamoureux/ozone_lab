@@ -40,3 +40,19 @@ ozone fs -ls /
 ```console
 ozone fs -ls ofs://ozone/
 ```
+
+```console
+ozone fs -mkdir ofs://ozone/vol1
+```
+
+```console
+ozone fs -ls ofs://ozone/
+```
+
+```console
+ozone fs -mkdir ofs://ozone/vol1/bucket1
+```
+
+```console
+ozone fs -ls ofs://ozone/vol1
+```
