@@ -35,3 +35,9 @@ VIEW THE BLOG
 <div class="blue">
     This markdown cell is blue.
 </div>
+
+<style>
+    .blue {
+        background-color: #0074D9;
+    }
+</style>
