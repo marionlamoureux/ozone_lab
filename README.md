@@ -18,7 +18,7 @@ ozone getconf -confKey ozone.om.http.auth.kerberos.principal
 ozone getconf -confKey ozone.om.http.auth.kerberos.keytab
 ```
 
-
+# Lab 2 Ozone protocol operations
 ```console
 ozone sh volume create /testperm
 ``` 
