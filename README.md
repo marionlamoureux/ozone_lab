@@ -57,3 +57,10 @@ ozone fs -mkdir ofs://ozone/vol1/bucket1
 ```console
 ozone fs -ls ofs://ozone/vol1
 ```
+
+
+```console
+sudo cp /var/log/cloudera-scm-agent/cloudera-scm-agent.log /tmp/cloudera-scm-agent.log
+ozone fs -put /tmp/cloudera-scm-agent.log ofs://ozone/vol1/bucket1
+```
+
