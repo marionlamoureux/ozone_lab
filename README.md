@@ -56,7 +56,7 @@ VIEW THE BLOG
     }
 </style>
 
-
+<mark style="background-color: #FFFF00">Highlighted text</mark>
 
 <span style="color:red">
 Text content
