@@ -19,7 +19,9 @@ ozone sh volume create /testperm
 ```console
 klist
 ```
-> `Ticket cache: FILE:/tmp/krb5cc_604400000_zNd5iw`
-> `Default principal: admin@WORKSHOP.COM`
-> `Valid starting       Expires              Service principal`
-> `09/11/2023 16:23:20  09/11/2023 17:23:20  krbtgt/WORKSHOP.COM@WORKSHOP.COM renew until 09/12/2023 16:23:20'
+> `
+Ticket cache: FILE:/tmp/krb5cc_604400000_zNd5iw
+Default principal: admin@WORKSHOP.COM
+Valid starting       Expires              Service principal
+09/11/2023 16:23:20  09/11/2023 17:23:20  krbtgt/WORKSHOP.COM@WORKSHOP.COM renew until 09/12/2023 16:23:20
+`
