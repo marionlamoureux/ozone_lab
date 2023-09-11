@@ -76,3 +76,16 @@ ozone fs -put /tmp/cloudera-scm-agent.log ofs://ozone/vol1/bucket1
 ```
 
 ### Ozone sh
+
+
+
+# Lab 3 Bucket options FSO / OBS
+
+# Lab 4 data copy HDFS ⇔ Ozone
+
+Summary:
+configure Ranger policy rules
+download dataset, push it to hdfs
+distcp operations hdfs dataset to ozone
+crc checksum validation via a spark-submit job
+
