@@ -1,15 +1,23 @@
-## Lab 1
+# Lab 1
 
-Enable and Configure Ranger:
+## Enable and Configure Ranger
 Go to the Ozone service, then select the Configuration tab.
 Confirm that RANGER Service is enabled.
 This integrates Ozone with Ranger security policies.
 
-
-
 ```console
 kinit admin
 ``` 
+## Test Ranger privileges
+
+
+## Reviewing Ozone Security Settings
+```console
+ozone getconf -confKey ozone.om.kerberos.principal
+ozone getconf -confKey ozone.om.http.auth.kerberos.principal
+ozone getconf -confKey ozone.om.http.auth.kerberos.keytab
+```
+
 
 ```console
 ozone sh volume create /testperm
