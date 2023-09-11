@@ -55,3 +55,9 @@ VIEW THE BLOG
         background-color: #2ECC40;
     }
 </style>
+
+
+
+<span style="color:red">
+Text content
+</span>
