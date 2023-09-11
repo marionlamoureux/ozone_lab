@@ -12,6 +12,7 @@ kinit admin
 ``` 
 
 ```cmd
-ozone sh volume create /testperms
+ozone sh volume create /testperm
+> `INFO rpc.RpcClient: Creating Volume: testperms, with admin as owner and space quota set to -1 bytes, counts quota set to -1`
 ``` 
 > `INFO rpc.RpcClient: Creating Volume: testperms, with admin as owner and space quota set to -1 bytes, counts quota set to -1`
