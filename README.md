@@ -18,6 +18,7 @@ INFO rpc.RpcClient: Creating Volume: testperms, with admin as owner and space qu
 
 > ozone sh volume create /testperms
 
-`INFO rpc.RpcClient: Creating Volume: testperms, with admin as owner and space quota set to -1 bytes, counts quota set to -1`
+`Expected code 
+INFO rpc.RpcClient: Creating Volume: testperms, with admin as owner and space quota set to -1 bytes, counts quota set to -1`
 
 At the command prompt, type ```kinit admin```
