@@ -26,3 +26,9 @@ At the command prompt, type ```kinit admin```
 
 
 <span style="background-color:black"> Some *blue* text </span>
+
+
+<div style="background-color:rgba(0, 0, 0, 0.0470588); text-align:center; vertical-align: middle; padding:40px 0; margin-top:30px">
+<a href="/blog">VIEW THE BLOG</a>
+</div>
+
