@@ -11,7 +11,7 @@ This integrates Ozone with Ranger security policies.
 kinit admin
 ``` 
 
-```cmd
+```console
 ozone sh volume create /testperm
 ``` 
 > `INFO rpc.RpcClient: Creating Volume: testperms, with admin as owner and space quota set to -1 bytes, counts quota set to -1`
