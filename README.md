@@ -7,4 +7,8 @@ This integrates Ozone with Ranger security policies.
 
 
 
-```kinit``` yourusername
+```console
+kinit admin
+``` 
+
+
