@@ -12,33 +12,32 @@ Summary
 
 ## 1.1 Enable and Configure Ranger
 In Cloudera Manager, go to the Ozone service.
-
-![Cloudera Manager - Ozone service.png](Images/Cloudera Manager - Ozone service.png)
+![[ClouderaManager-Ozoneservice.png]](./images/ClouderaManager-Ozoneservice.png)
 
 Select the Ozone Configuration tab and onfirm that RANGER Service is enabled.
-![[Ozone Configuration - Ranger enabled.png]]
+![OzoneConfiguration-Rangerenabled.png](./images/OzoneConfiguration-Rangerenabled.png)
 This integrates Ozone with Ranger security policies.
 
 Access the Ranger Service and access the Ranger UI
-![[Ranger Service - UI url.png]]
+![RangerService-UIurl.png](./images/RangerService-UIurl.png)
 
 Select cm_ozone under the Ozone service.
-![[cm_ozone in Ranger.png]]
+![cm_ozoneinRanger.png](./images/cm_ozoneinRanger.png)
 
 In the top policy listed as **all - volume, bucket and key**, click the pencil icon on the right that shows Edit when you hover over it.
 
-![[Edit policy for Ozone.png]]
+![EditpolicyforOzone.png](./images/EditpolicyforOzone.png)
 
 
 Structure of the Ranger permissions for Ozone
 
 Ozone Data Layout
-![[Ozone Data Layout.png]]
+![OzoneDataLayout.png](./images/OzoneDataLayout.png)
 
 Ranger - Allow and deny conditions
-![[Ranger - Allow and Deny conditions.png]]
+![Ranger-AllowandDenyconditions.png](./images/Ranger-AllowandDenyconditions.png)
 
-![[Ozone permission page.png]]
+![Ozonepermissionpage.png](./images/Ozonepermissionpage.png)
 
 
 **Test the following with users Bob and Alice**
@@ -55,16 +54,16 @@ Key = \*
 Add users Admin and Alice to the existing "All" condition.
 
 Bob's accesses:
-- Click on the + button under the "Allow Conditions"![[Add Allow Condition.png]]
+- Click on the + button under the "Allow Conditions"![AddAllowCondition.png](./images/AddAllowCondition.png)
 - Under “Allow” condition add “read/list” privileges for the user Bob
-![[Allow Ragner policy.png]]
+![AllowRangerpolicy.png](./images/AllowRangerpolicy.png)
 
 - Under "Deny" condition, add "create" privileges for user Bob
 
-![[Deny Ranger Policy.png]]
+![DenyRangerPolicy.png](./images/DenyRangerPolicy.png)
 
 Add your username to the first “allow” condition (e.g. admin) to provide all privileges to your user.
-![[Add user to Ozone permissions.png]]
+![AddusertoOzonepermissions.png](./images/AddusertoOzonepermissions.png)
 
 Scroll down to the bottom of the page and press Save.
 
@@ -91,7 +90,8 @@ Switch to user Alice to create a volume and a file:
 kinit Alice
 ```
 Password:Supersecret1
-Try the same command:
+
+Try the same command as Alice:
 ```console
 ozone sh volume create /testperms
 ```
@@ -112,6 +112,10 @@ ozone sh key put --replication=ONE --replication-type=RATIS o3://ozone/testperms
 
 ## 1.3 Reviewing Ozone Security Settings
 
+List the Kerberos principal and Kerberos tickets held in your credentials cache with klist. 
+If necessary, obtain a Kerberos ticket-granting ticket using kinit.
+Run the following ozone getconf commands to check some Ozone Manager properties:
+
 
 ```console
 ozone getconf -confKey ozone.om.kerberos.principal
@@ -126,18 +130,18 @@ ozone getconf -confKey ozone.om.http.auth.kerberos.keytab
 Ozone has multiple protocols to work with for a variety of operations. 
 There is no ONE PROTOCOL THAT RULES THEM ALL yet.
 
-![[Ozone protocoles.png]]
+![Ozone protocoles.png](./images/Ozoneprotocoles.png)
 
 Ozone is a multi-protocol storage system with support for the following interfaces:
-- ofs: Hadoop-compatible file system allows any application that expects an HDFS like interface to work against Ozone with no changes. Frameworks like Apache Spark, YARN, and Hive work against Ozone without the need for any change. 
-- s3: Amazon’s Simple Storage Service (S3) protocol. You can use S3 clients and S3 SDK-based applications without any modifications to Ozone.  => try to avoid this protocol since all passes through the s3ateway 
-- o3fs: A bucket-rooted Hadoop Compatible file system interface. 
-- o3: An object store interface that can be used from the Ozone shell.
+- **ofs**: Hadoop-compatible file system allows any application that expects an HDFS like interface to work against Ozone with no changes. Frameworks like Apache Spark, YARN, and Hive work against Ozone without the need for any change. 
+- **s3**: Amazon’s Simple Storage Service (S3) protocol. You can use S3 clients and S3 SDK-based applications without any modifications to Ozone.  => try to avoid this protocol since all passes through the s3ateway 
+- **o3fs**: A bucket-rooted Hadoop Compatible file system interface. 
+- **o3**: An object store interface that can be used from the Ozone shell.
 
 ### Ozone CLIs
 Ozone CLI is used to access Ozone. 
-- ozone fs - Runs Hadoop filesystem compatible commands on FSO(File System Optimized) and LEGACY buckets. Compatible with ofs and o3fs interfaces. Supports trash implementation.
-- ozone sh - Ozone command shell interface to access Ozone as a key-value store. Command format is: ozone sh object action url. Object can be volume/bucket/key. Compatible with o3 interface.
+- ozone **fs** - Runs Hadoop filesystem compatible commands on FSO(File System Optimized) and LEGACY buckets. Compatible with ofs and o3fs interfaces. Supports trash implementation.
+- ozone **sh** - Ozone command shell interface to access Ozone as a key-value store. Command format is: ozone sh object action url. Object can be volume/bucket/key. Compatible with o3 interface.
 
 #### Ozone fs
 Summary operations
@@ -150,14 +154,16 @@ Summary operations
 
 
 
-The Ozone client can access Ozone as a file system and as a key-value store. When Ozone is installed with the HDFS dependency, the Ozone client library support is built into the HDFS client commands, which will therefore be available for use with Ozone. **hdfs dfs** can also be used (if ozone is not the default fs, a URI path is needed.)
+The Ozone client can access Ozone as a file system and as a key-value store.
+When Ozone is installed with the HDFS dependency, the Ozone client library support is built into the HDFS client commands, which will therefore be available for use with Ozone.
+**hdfs dfs** can also be used (if ozone is not the default fs, a URI path is needed.)
 
-
+Run the following command to list the files stored in HDFS.
 ```console
 ozone fs -ls /
 ```
 
-expended output is the list of files stored in HDFS:
+Expected output is the list of files stored in HDFS:
 `drwxr-xr-x   - hbase hbase               0 2023-09-09 13:12 /hbase`
 `drwxr-xr-x   - hdfs  supergroup          0 2023-09-09 13:08 /ranger`
 `drwxrwxr-x   - solr  solr                0 2023-09-09 13:09 /solr-infra`
@@ -170,7 +176,10 @@ expended output is the list of files stored in HDFS:
 ```console
 ozone fs -ls ofs://ozone/
 ```
-Volumes are at the highest level of the Ozone file system and are used to manage buckets that store keys. Quotas and user permissions can be applied to volumes for high-level file system management.
+Volumes are at the highest level of the Ozone file system and are used to manage buckets that store keys.
+Quotas and user permissions can be applied to volumes for high-level file system management.
+
+Expected output for listing Ozone items at parent level:
 `drwxrwxrwx   - om                       0 2023-09-11 18:29 ofs://ozone/s3v`
 
 
@@ -180,20 +189,49 @@ ozone fs -mkdir ofs://ozone/vol1
 ozone fs -ls ofs://ozone/
 ```
 
-Expended output:
+Expected output after volume creation and list command:
 `drwxrwxrwx   - om                       0 2023-09-11 18:29 ofs://ozone/s3v`
 `drwxrwxrwx   - admin admins             0 2023-09-12 14:34 ofs://ozone/vol1`
 
-Create a bucket in vol1 called bucket1. Buckets are used to store files.
+Create a bucket in vol1 called bucket1 and list all items under volume 1. Buckets are used to store files.
 ```console
 ozone fs -mkdir ofs://ozone/vol1/bucket1
 ozone fs -ls ofs://ozone/vol1
 ```
+Expected output
+`23/09/12 16:36:37 INFO rpc.RpcClient: Creating Bucket: vol1/bucket1, with the Bucket Layout FILE_SYSTEM_OPTIMIZED,
+admin as owner, Versioning false, Storage Type set to DISK and Encryption set to false`
+`drwxrwxrwx   - admin admins          0 2023-09-12 16:36 ofs://ozone/vol1/bucket1`
 
+OFS mimics a traditional file system, the first two levels volume and bucket look like directories.
+However, you cannot use the top level volume to store keys (files). When you add a key (file), it stores the contents of the file uploaded to Ozone under that key name. 
+A key is a hybrid file name. It can be a file name stored at the root of the bucket or it can be a directory path from the bucket with a filename. 
+Keys can be used to mimic a traditional file system.  It is important to note that volumes and buckets have naming restrictions and certain characters and cases are not allowed. 
+Keys do not have this same limit. It is also important to note that you must have /volume/bucket for OFS.  
+Files must have 2 directories at a minimum (/tmp is the only exception to be a hadoop compatible filesystem.) 
+Some other notes is that EC and Encryption is at the bucket level.  Pathing from HDFS to Ozone may change due to these restrictions!!!!
+
+Upload a file to bucket1:
 ```console
-sudo cp /var/log/cloudera-scm-agent/cloudera-scm-agent.log /tmp/cloudera-scm-agent.log
-ozone fs -put /tmp/cloudera-scm-agent.log ofs://ozone/vol1/bucket1
+echo "Test file" > testfile
+ozone fs -put testfile ofs://ozone/vol1/bucket1
+ozone fs -ls ofs://ozone/vol1/bucket1
 ```
+Expected output for listing content of bucket1:
+-rw-rw-rw-   1 admin admin         10 2023-09-12 16:41 ofs://ozone/vol1/bucket1/testfile
+
+
+View content of the file:
+```console
+ozone fs -cat ofs://ozone/vol1/bucket1/testfile
+```
+
+##### Deletion
+When you delete a file in Ozone using ozone fs, the file is not immediately removed from Ozone. Instead files are moved to a hidden .Trash dir (prefix dot Trash) that is user accessible under /user/<username>/.Trash/Current deleted directory. The full directory path of each user's deleted files will appear under this .Trash dir.
+
+To bypass the trash to save disk space from keeping around files in the .Trash folder, set the -skipTrash flag to immediately delete the files bypassing the trash when you delete files.
+
+
 
 #### Ozone sh
 
