@@ -13,6 +13,7 @@ Summary
 ## 1.1 Enable and Configure Ranger
 In Cloudera Manager, go to the Ozone service.
 ![Cloudera Manager - Ozone service.png](Images/Cloudera Manager - Ozone service.png)
+![Cloudera Manager - Ozone service.png](Images/Cloudera Manager - Ozone service.png)
 
 Select the Ozone Configuration tab and onfirm that RANGER Service is enabled.
 ![[Ozone Configuration - Ranger enabled.png]]
