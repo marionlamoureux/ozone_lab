@@ -626,7 +626,7 @@ EOF
 
 Hive Beeline
 create an external table on ozone that will be used later in CDW
-
+![Hivetable](./images/Hivetable.png)
 
 # Lab 6 Ozone S3 gateway
 
