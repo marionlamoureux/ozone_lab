@@ -540,8 +540,43 @@ Once copied over, list the files in the Ozone bucket:
 ```console
 ozone fs -ls ofs://ozone/hive/warehouse/cp/vehicles
 ```
+- Using the ozone fs -cp command is a very slow way to copy files, because only a single client shell on the gateway will download and upload the files between the systems. For greater scalability, you need to have the cluster move the files in parallel, directly from the source to the destination with multiple servers.
+- Copy files using the hadoop distcp command. This will submit a MapReduce application to Yarn to run a map side job that will, by default, copy the files using multiple servers (4 containers in parallel). This will be much faster than using the ozone cp command for large files, as the hard work of copying all the files is done by the whole cluster, rather than a single machine with less bandwidth when using the ozone fs cp command. Distcp is a powerful tool for moving files in parallel. It offers many options for syncing and atomically copying data, so that no file is missed even if there is an error in communication. 
+
+```console
+ozone fs -mkdir -p ofs://ozone/hive/warehouse/distcp/vehicles
+hadoop distcp -m 2 -skipcrccheck hdfs:///tmp/vehicles.csv ofs://ozone/hive/warehouse/distcp/vehicles
+```
+Another variant: authentication -- Establishes mutual authentication between the client and the server.
+```console
+hadoop distcp  -Ddfs.data.transfer.protection=authentication -m 2 -skipcrccheck \ hdfs://cdp.54.170.129.255.nip.io:8020/user/admin/* ofs://ozone/my-volume1/my-bucket1
+```
+
+List the Ozone files in /tmp
+```console
+ozone fs -ls  ofs://ozone/hive/warehouse/distcp/vehicles
+```
 
 # Lab 5 Hive & Spark on base
+Summary:
+- Configure ranger policy rules
+- Check that hiveServer2 has the right colocation parameters in place
+- Start a spark shell session and perform some operations
+- Spark shell push data
+- Hive via beeline
+- Hive via hue
+
+Prerequisites:
+We need to change some Ranger policy rules so hive can access the Ozone layer, Ozone Manager also needs to access H2s.
+We will also check the h2s parameter to allow managed db and table on both ozone and hdfs
+
+Give your users all privileges on HadoopSQL repo in Ranger. Open Ranger UI, access the Hadoop SQL service, add your user to all - database, table, column policy and Save.
+![RangerHadoopSQL](./images/RangerHadoopSQL.png)
+
+In the sqme HadoopSQL tab, add your user to the "all - url" policy, this is needed for Spark
+![RangerAllurls](./images/RangerAllurls.png)
+
+
 
 # Lab 6 Ozone S3 gateway
 
