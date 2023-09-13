@@ -234,6 +234,9 @@ To bypass the trash to save disk space from keeping around files in the .Trash f
 ```console
 ozone fs -rm -r -skipTrash ofs://ozone/vol1/bucket1/testfile
 ```
+Expected output
+`Deleted ofs://ozone/vol1/bucket1/testfile`
+
 
 #### Ozone sh
 summary operations:
@@ -292,6 +295,42 @@ Expected output
   "owner" : "centos",
   "link" : false
 }`
+
+
+Delete volume, buckets and create another volume and bucket associated to this exercise
+
+```console
+ozone sh volume delete o3://ozone/my-volume1
+```
+Expected output is an error message as the volume contains a bucket
+```console
+ozone sh bucket delete o3://ozone/my-volume1/my-bucket3
+```
+List operations
+```cpnsole
+ozone sh volume list --user=admin
+ozone sh volume list --all o3://ozone 
+# a variant which provides all the volumes for a dedicated user
+ozone sh volume list --all o3://ozone | grep -A3 'metadata' | grep 'name\|owner\|admin'
+ozone sh bucket list o3://ozone/my-volume1/
+```
+
+get information from volume, bucket, key
+```console
+ozone sh volume info o3://ozone/my-volune1
+ozone sh bucket info o3://ozone/my-volume1/my-bucket1
+```
+
+Quota operations
+```console
+# set a quota 
+## namespace-quota mean max number of buckets or keys
+ozone sh volume setquota --namespace-quota=2 --space-quota 100MB o3://ozone/my-volume1
+ozone sh bucket setquota --namespace-quota=10 --space-quota 100MB o3://ozone/my-volume1/my-bucket1 
+#remove a quota
+ozone sh volume clrquota --namespace-quota o3://ozone/my-volume1
+ozone sh bucket clrquota --space-quota o3://ozone/my-volume1/my-bucket1
+```
 
 # Lab 3 Bucket options FSO / OBS
 Summary:
