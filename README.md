@@ -596,17 +596,21 @@ Let's push some data to ozone first.
 ozone fs -put /var/log/hadoop-ozone/ozone-recon.log ofs://ozone/vol1/bucket1/
 ```
 
-within Spark-shell
+Open the Spark Shell
 ```console
 spark-shell --conf spark.yarn.access.hadoopFileSystems=ofs://ozone
 ```
-
+within Spark-shell
 ```scala
 val dfofs=spark.read.option("header", "true").option("inferSchema", "true").csv(s"ofs://ozone/vol1/bucket1/ozone-recon.log")
 dfofs.collect()
 ```
-
-
+Another example
+```console
+hdfs dfs -mkdir -p ofs://ozone/data/vehicles
+wget -qO - https://www.fueleconomy.gov/feg/epadata/vehicles.csv | hdfs dfs -copyFromLocal - ofs://ozone/data/vehicles/vehicles.csv 
+spark-shell --conf "spark.debug.maxToStringFields=90" --conf spark.yarn.access.hadoopFileSystems="ofs://ozone/" << EOF
+```
 
 # Lab 6 Ozone S3 gateway
 
