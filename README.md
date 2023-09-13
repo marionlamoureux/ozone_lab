@@ -605,12 +605,28 @@ within Spark-shell
 val dfofs=spark.read.option("header", "true").option("inferSchema", "true").csv(s"ofs://ozone/vol1/bucket1/ozone-recon.log")
 dfofs.collect()
 ```
+To exit the spark shall
+```scala
+:quit
+```
+
 Another example
 ```console
 hdfs dfs -mkdir -p ofs://ozone/data/vehicles
 wget -qO - https://www.fueleconomy.gov/feg/epadata/vehicles.csv | hdfs dfs -copyFromLocal - ofs://ozone/data/vehicles/vehicles.csv 
 spark-shell --conf "spark.debug.maxToStringFields=90" --conf spark.yarn.access.hadoopFileSystems="ofs://ozone/" << EOF
 ```
+
+```scala
+val df = spark.read.format("csv").option("header", "true").load("ofs://ozone/data/vehicles/vehicles.csv")
+df.createOrReplaceTempView("tempvehicle")
+spark.sql("create table vehicles stored as parquet location 'ofs://ozone/data/vehicles/vehicles' as select * from tempvehicle");
+EOF
+```
+
+Hive Beeline
+create an external table on ozone that will be used later in CDW
+
 
 # Lab 6 Ozone S3 gateway
 
