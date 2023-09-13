@@ -576,6 +576,17 @@ Give your users all privileges on HadoopSQL repo in Ranger. Open Ranger UI, acce
 In the sqme HadoopSQL tab, add your user to the "all - url" policy, this is needed for Spark
 ![RangerAllurls](./images/RangerAllurls.png)
 
+Next, provide “hive” and “yarn” user all privileges on Ozone.
+
+On Ranger UI, go to cm_ozone repo > Edit “all - volume, bucket, key” > Provide “hive” & “yarn” users all privileges.
+![yarn_hiveoncm_ozone](./images/yarn_hiveoncm_ozone.png)
+
+Check HiveServer 2 configuration:
+ If we want hive managed databases and tables on both ozone and HDFS, we do need to add a parameter within hiveServer2 to make it happen.
+
+within hive_hs2_config_safety_valve add  metastore.warehouse.tenant.colocation=true
+![hiveontezconfig](./images/hiveontezconfig.png)
+
 
 
 # Lab 6 Ozone S3 gateway
