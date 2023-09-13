@@ -634,7 +634,7 @@ hostname
 ```
 and replace the hostname in the below command:
 
-`beeline -u "jdbc:hive2://<hostnameX>:10000/default;principal=hive/<hostnameX>@WORKSHOP.COM;ssl=true;sslTrustStore=/opt/cloudera/security/jks/truststore.jks"
+`beeline -u "jdbc:hive2://` **<hostnameX>** `:10000/default;principal=hive/<hostnameX>@WORKSHOP.COM;ssl=true;sslTrustStore=/opt/cloudera/security/jks/truststore.jks"
 `
 
 # Lab 6 Ozone S3 gateway
