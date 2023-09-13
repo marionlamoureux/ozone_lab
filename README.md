@@ -153,7 +153,6 @@ Summary operations
 - delete data from a bucket
 
 
-
 The Ozone client can access Ozone as a file system and as a key-value store.
 When Ozone is installed with the HDFS dependency, the Ozone client library support is built into the HDFS client commands, which will therefore be available for use with Ozone.
 **hdfs dfs** can also be used (if ozone is not the default fs, a URI path is needed.)
@@ -219,7 +218,7 @@ ozone fs -ls ofs://ozone/vol1/bucket1
 ```
 Expected output for listing content of bucket1:
 -rw-rw-rw-   1 admin admin         10 2023-09-12 16:41 ofs://ozone/vol1/bucket1/testfile
-
+![ANATOMY OF A WRITE](./images/Ozone-Anatomyofawrite)
 
 View content of the file:
 ```console
