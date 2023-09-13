@@ -726,6 +726,33 @@ Expected output
 `drwxrwxrwx   - admin admin          0 2023-09-13 16:46 ofs://ozone/hive/warehouse/managed/test_managed/delta_0000001_0000001_0000`
 `-rw-rw-rw-   1 admin admin        741 2023-09-13 16:46 ofs://ozone/hive/warehouse/managed/test_managed/delta_0000001_0000001_0000/bucket_00000_0`
 
+Now display the content of the external Hive warehouse in Ozone
+```console
+ozone fs -ls -R ofs://ozone/hive/warehouse/external
+```
+Expected outpuit
+`drwxrwxrwx   - admin admin          0 2023-09-13 16:46 ofs://ozone/hive/warehouse/external/test_external`
+`-rw-rw-rw-   1 admin admin         10 2023-09-13 17:01 ofs://ozone/hive/warehouse/external/test_external/000000_0`
+
+Create managed table on ozone
+Reopen the beeline shell
+`beeline -u "jdbc:hive2://<hostnameX>:10000/default;principal=hive/<hostnameX>@WORKSHOP.COM;ssl=true;sslTrustStore=/opt/cloudera/security/jks/truststore.jks"`
+
+and run
+```beeline
+CREATE DATABASE testofs LOCATION 'ofs://ozone/user/alice-db/testofs-ext' MANAGEDLOCATION 'ofs://ozone/user/alice-db/testofs-managed' ;
+```
 
 # Lab 6 Ozone S3 gateway
 
+Summary steps:
+- download and install the aws s3 cli
+- get the om-service-id
+- get an ozone secret key for userX
+- configure aws s3 cli to work with ozone
+- CA operations:
+  - ozone certificate find which alias
+  - certificate.jks ozone export alias to s3g-ca.crt
+  - transform .crt to .pem
+- ozone symlink a bucker from your volume to ozone s3v standard volume
+- s3a: which api is compatible with ozone
