@@ -500,7 +500,7 @@ Expected Output
   "modificationTime" : "2023-09-13T10:44:22.166Z",
   "quotaInBytes" : -1,
   "quotaInNamespace" : -1,
-  "bucketLayout" : "*OBJECT_STORE*",
+  "bucketLayout" : "**OBJECT_STORE**",
   "owner" : "admin",
   "link" : false
 }`
@@ -517,9 +517,10 @@ Prerequisites
 In Ranger (log into Ranger UI using admin/Supersecret1).
 Select cm_hdfs under the HDFS service.
 Once you are on the cm_hdfs page, edit the first policy called all-path by clicking its number or the Edit (pencil) button on the right.
-![cm_HDFS](./images/cm_HDFS)
-Under Allow Conditions, add your admin user to the users with RWX permissions (e.g: centos)
-![RangerforHDFS](./images/RangerforHDFS)
+![cm_HDFS](./images/cm_HDFS.png)
+Under Allow Conditions, add your admin user to the users with RWX permissions (e.g: admin)
+![RangerforHDFS](./images/RangerforHDFS.png)
+**Save** your changes to the Ranger policy
 
 
 # Lab 5 Hive & Spark on base
