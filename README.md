@@ -317,7 +317,7 @@ ozone sh bucket list o3://ozone/my-volume1/
 
 get information from volume, bucket, key
 ```console
-ozone sh volume info o3://ozone/my-volune1
+ozone sh volume info o3://ozone/my-volume1
 ozone sh bucket info o3://ozone/my-volume1/my-bucket1
 ```
 
@@ -331,6 +331,112 @@ ozone sh bucket setquota --namespace-quota=10 --space-quota 100MB o3://ozone/my-
 ozone sh volume clrquota --namespace-quota o3://ozone/my-volume1
 ozone sh bucket clrquota --space-quota o3://ozone/my-volume1/my-bucket1
 ```
+
+Symlinks
+Symlinks are relevant when s3 operation required. you do not create a bucket within the volume srv but you symlink a bucket in it
+```console
+ozone sh bucket link o3://ozone/my-volume1/my-bucket1 o3://ozone/my-volume1/my-bucket3
+```
+
+Ozone bucket Erasure coding  ⇒ **won't fully work on a 1 node cluster**
+Ozone supports RATIS and Erasure Coding Replication types. 
+Default replication type is RATIS and the replication factor is 3. Copies of container replicas are maintained across the cluster. RATIS 3 replication has 200% storage overhead.
+For cold and warm data with low I/O requirement EC storage is available. 50% replication overhead.
+
+Create Erasure Coded(EC) buckets/keys
+```console
+ozone sh bucket create /vol1/ec5-bucket1 -t EC -r rs-3-2-1024k
+ozone sh bucket info  /vol1/ec5-bucket1
+```
+Expected output
+`{
+  "metadata" : { },
+  "volumeName" : "vol1",
+  "name" : "ec5-bucket1",
+  "storageType" : "DISK",
+  "versioning" : false,
+  "usedBytes" : 0,
+  "usedNamespace" : 0,
+  "creationTime" : "2023-04-19T17:41:02.340Z",
+  "modificationTime" : "2023-04-19T17:41:02.340Z",
+  "quotaInBytes" : -1,
+  "quotaInNamespace" : -1,
+  "bucketLayout" : "LEGACY",
+  "owner" : "cdpuser1",
+  "replicationConfig" : {
+    "data" : 3,
+    "parity" : 2,
+    "ecChunkSize" : 1048576,
+    "codec" : "RS",
+    "replicationType" : "EC",
+    "requiredNodes" : 5
+  },
+  "link" : false
+}
+`
+
+```console
+ozone sh bucket create /vol1/ec9-bucket1 -t EC -r rs-6-3-1024k
+ozone sh bucket info  /vol1/ec9-bucket1
+```
+`{
+  "metadata" : { },
+  "volumeName" : "vol1",
+  "name" : "ec9-bucket1",
+  "storageType" : "DISK",
+  "versioning" : false,
+  "usedBytes" : 0,
+  "usedNamespace" : 0,
+  "creationTime" : "2023-04-19T17:42:03.273Z",
+  "modificationTime" : "2023-04-19T17:42:03.273Z",
+  "quotaInBytes" : -1,
+  "quotaInNamespace" : -1,
+  "bucketLayout" : "LEGACY",
+  "owner" : "cdpuser1",
+  "replicationConfig" : {
+    "data" : 6,
+    "parity" : 3,
+    "ecChunkSize" : 1048576,
+    "codec" : "RS",
+    "replicationType" : "EC",
+    "requiredNodes" : 9
+  },
+  "link" : false
+}
+`
+
+For reference:  you can update replication config for existing buckets:
+```console
+ozone sh bucket create /vol1/bucket1
+ozone sh bucket set-replication-config /vol1/bucket1 -t EC -r rs-3-2-1024k 
+ozone sh bucket info /vol1/bucket1
+```
+`
+{
+  "metadata" : { },
+  "volumeName" : "vol1",
+  "name" : "bucket1",
+  "storageType" : "DISK",
+  "versioning" : false,
+  "usedBytes" : 0,
+  "usedNamespace" : 0,
+  "creationTime" : "2023-04-19T17:42:27.327Z",
+  "modificationTime" : "2023-04-19T17:42:32.026Z",
+  "quotaInBytes" : -1,
+  "quotaInNamespace" : -1,
+  "bucketLayout" : "LEGACY",
+  "replicationConfig" : {
+    "data" : 3,
+    "parity" : 2,
+    "ecChunkSize" : 1048576,
+    "codec" : "RS",
+    "replicationType" : "EC",
+    "requiredNodes" : 5
+  },
+  "link" : false
+}
+`
+
 
 # Lab 3 Bucket options FSO / OBS
 Summary:
