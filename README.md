@@ -655,10 +655,12 @@ create table ozone_wh.test_managed (name string, value string);
 show create table ozone_wh.test_managed;
 ```
 
+
 Expected output
-+----------------------------------------------------+
+
+|----------------------------------------------------|
 |                   createtab_stmt                   |
-+----------------------------------------------------+
+|----------------------------------------------------|
 | CREATE TABLE `ozone_wh`.`test_managed`(            |
 |   `name` string,                                   |
 |   `value` string)                                  |
@@ -675,7 +677,7 @@ Expected output
 |   'transactional'='true',                          |
 |   'transactional_properties'='default',            |
 |   'transient_lastDdlTime'='1694622963')            |
-
+|----------------------------------------------------|
 
 
 # Lab 6 Ozone S3 gateway
