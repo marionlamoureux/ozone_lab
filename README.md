@@ -513,6 +513,15 @@ Summary
 - distcp operations hdfs dataset to ozone
 - crc checksum validation via a spark-submit job
 
+Prerequisites
+In Ranger (log into Ranger UI using admin/Supersecret1).
+Select cm_hdfs under the HDFS service.
+Once you are on the cm_hdfs page, edit the first policy called all-path by clicking its number or the Edit (pencil) button on the right.
+![cm_HDFS](./images/cm_HDFS)
+Under Allow Conditions, add your admin user to the users with RWX permissions (e.g: centos)
+![RangerforHDFS](./images/RangerforHDFS)
+
+
 # Lab 5 Hive & Spark on base
 
 # Lab 6 Ozone S3 gateway
