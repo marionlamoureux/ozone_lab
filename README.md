@@ -231,11 +231,67 @@ When you delete a file in Ozone using ozone fs, the file is not immediately remo
 
 To bypass the trash to save disk space from keeping around files in the .Trash folder, set the -skipTrash flag to immediately delete the files bypassing the trash when you delete files.
 
-
+```console
+ozone fs -rm -r -skipTrash ofs://ozone/vol1/bucket1/testfile
+```
 
 #### Ozone sh
+summary operations:
+- create a volume
+- create a bucket
+- delete volume, buckets
+- list operations
+- get information from volume, bucket, key
+- quota operations
+- symlinks 
+Other operations will be done in further section such as EC, replications, bucket layout type
 
+Detailed operations:
+Create a volume /vol2
+```console
+ozone sh volume create o3://ozone/vol2  ### or ozone sh volume create /vol2
+```
+Expected output
+`ozone sh volume info /vol2
+{
+  "metadata" : { },
+  "name" : "vol2",
+  "admin" : "centos",
+  "owner" : "centos",
+  "quotaInBytes" : -1,
+  "quotaInNamespace" : -1,
+  "usedNamespace" : 0,
+  "creationTime" : "2023-04-18T03:45:41.930Z",
+  "modificationTime" : "2023-04-18T03:45:41.930Z",
+  "acls" : [ {
+    "type" : "USER",
+    "name" : "centos",
+    "aclScope" : "ACCESS",
+    "aclList" : [ "ALL" ]
+  }`
 
+Create a bucket bucket1 under /vol2
+```console
+ozone sh bucket create /vol2/bucket1
+```
+Expected output
+`ozone sh bucket info /vol2/bucket1
+{
+  "metadata" : { },
+  "volumeName" : "vol2",
+  "name" : "bucket1",
+  "storageType" : "DISK",
+  "versioning" : false,
+  "usedBytes" : 0,
+  "usedNamespace" : 0,
+  "creationTime" : "2023-04-18T03:46:37.236Z",
+  "modificationTime" : "2023-04-18T03:46:37.236Z",
+  "quotaInBytes" : -1,
+  "quotaInNamespace" : -1,
+  "bucketLayout" : "LEGACY",
+  "owner" : "centos",
+  "link" : false
+}`
 
 # Lab 3 Bucket options FSO / OBS
 Summary:
