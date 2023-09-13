@@ -218,7 +218,7 @@ ozone fs -ls ofs://ozone/vol1/bucket1
 ```
 Expected output for listing content of bucket1:
 -rw-rw-rw-   1 admin admin         10 2023-09-12 16:41 ofs://ozone/vol1/bucket1/testfile
-![ANATOMY OF A WRITE](./images/Ozone-Anatomyofawrite)
+![Ozone-Anatomyofawrite](./images/Ozone-Anatomyofawrite.png)
 
 View content of the file:
 ```console
