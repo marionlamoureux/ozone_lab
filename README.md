@@ -440,8 +440,70 @@ ozone sh bucket info /vol1/bucket1
 # Lab 3 Bucket options FSO / OBS
 Summary:
 - 3 bucket layouts and why
-- create a bucket FSO, obs
+- create a bucket FSO, OBS
 
+Ozone supports multiple bucket layouts
+- FILE_SYSTEM_OPTIMIZED (FSO):
+  - Hierarchical file system namespace with files and directories.
+  - Atomic rename/delete operations supported.
+  - Recommended to be used with Hadoop file system compatible interfaces rather than s3 interfaces.
+  - Awesome for Hive / Impala
+  - Trash implementation.
+  
+- OBJECT_STORE (OBS):
+  - Flat key-value namespace like S3.
+  - Recommended to be used with S3 interfaces.
+- LEGACY:
+  - Provides support for existing buckets created in older versions.
+  - Default behavior is compatible with the Hadoop File system. 
+
+Within Vol1 already created, create a bucket with the FSO layout and display the information about the bucket
+```console
+ozone sh bucket create /vol1/fso-bucket --layout FILE_SYSTEM_OPTIMIZED
+ozone sh bucket info /vol1/fso-bucket
+```
+
+Expected output
+`{
+  "metadata" : { },
+  "volumeName" : "vol1",
+  "name" : "fso-bucket",
+  "storageType" : "DISK",
+  "versioning" : false,
+  "usedBytes" : 0,
+  "usedNamespace" : 0,
+  "creationTime" : "2023-09-13T10:43:04.625Z",
+  "modificationTime" : "2023-09-13T10:43:04.625Z",
+  "quotaInBytes" : -1,
+  "quotaInNamespace" : -1,
+  "bucketLayout" : "*FILE_SYSTEM_OPTIMIZED*",
+  "owner" : "admin",
+  "link" : false
+}`
+Within Vol1 already created, create a bucket with the OBS layout and display the information about the bucket
+```console
+ozone sh bucket create /vol1/obs-bucket --layout OBJECT_STORE
+ozone sh bucket info /vol1/obs-bucket
+```
+
+Expected Output
+`
+{
+  "metadata" : { },
+  "volumeName" : "vol1",
+  "name" : "obs-bucket",
+  "storageType" : "DISK",
+  "versioning" : false,
+  "usedBytes" : 0,
+  "usedNamespace" : 0,
+  "creationTime" : "2023-09-13T10:44:22.166Z",
+  "modificationTime" : "2023-09-13T10:44:22.166Z",
+  "quotaInBytes" : -1,
+  "quotaInNamespace" : -1,
+  "bucketLayout" : "*OBJECT_STORE*",
+  "owner" : "admin",
+  "link" : false
+}`
 
 # Lab 4 data copy HDFS ⇔ Ozone
 
