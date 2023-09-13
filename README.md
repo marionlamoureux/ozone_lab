@@ -674,7 +674,7 @@ Expected output
 |   'bucketing_version'='2',                         |
 |   'transactional'='true',                          |
 |   'transactional_properties'='default',            |
-|   'transient_lastDdlTime'='1694622963') 
+|   'transient_lastDdlTime'='1694622963')            |
 
 
 
