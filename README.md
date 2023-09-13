@@ -642,11 +642,40 @@ CREATE EXTERNAL TABLE `hive_vehicles`(
 row format delimited 
 fields terminated by ','
 location 'ofs://ozone/hive/warehouse/distcp/vehicles';
-
 msck repair table `hive_vehicles`;
-
 select * from hive_vehicles limit 2;
 ```
+Create a warehouse on Ozone.
+
+```beeline
+CREATE DATABASE ozone_wh 
+LOCATION 'ofs://ozone/hive/warehouse/external' 
+MANAGEDLOCATION 'ofs://ozone/hive/warehouse/managed';
+create table ozone_wh.test_managed (name string, value string);
+show create table ozone_wh.test_managed;
+```
+`
++----------------------------------------------------+
+|                   createtab_stmt                   |
++----------------------------------------------------+
+| CREATE TABLE `ozone_wh`.`test_managed`(            |
+|   `name` string,                                   |
+|   `value` string)                                  |
+| ROW FORMAT SERDE                                   |
+|   'org.apache.hadoop.hive.ql.io.orc.OrcSerde'      |
+| STORED AS INPUTFORMAT                              |
+|   'org.apache.hadoop.hive.ql.io.orc.OrcInputFormat'  |
+| OUTPUTFORMAT                                       |
+|   'org.apache.hadoop.hive.ql.io.orc.OrcOutputFormat' |
+| LOCATION                                           |
+|   'ofs://ozone/hive/warehouse/managed/test_managed' |
+| TBLPROPERTIES (                                    |
+|   'bucketing_version'='2',                         |
+|   'transactional'='true',                          |
+|   'transactional_properties'='default',            |
+|   'transient_lastDdlTime'='1694622963') 
+`
+
 
 # Lab 6 Ozone S3 gateway
 
