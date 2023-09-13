@@ -645,8 +645,7 @@ location 'ofs://ozone/hive/warehouse/distcp/vehicles';
 msck repair table `hive_vehicles`;
 select * from hive_vehicles limit 2;
 ```
-Create a warehouse on Ozone.
-
+Create a warehouse on Ozone
 ```beeline
 CREATE DATABASE ozone_wh 
 LOCATION 'ofs://ozone/hive/warehouse/external' 
@@ -657,7 +656,6 @@ show create table ozone_wh.test_managed;
 
 
 Expected output
-
 
 |                   createtab_stmt                   |
 |----------------------------------------------------|
@@ -678,6 +676,55 @@ Expected output
 |   'transactional_properties'='default',            |
 |   'transient_lastDdlTime'='1694622963')            |
 
+Still in beeline type:
+```beeline
+insert into ozone_wh.test_managed values ('foo1', 'bar1');
+create external table ozone_wh.test_external (name string, value string);
+show create table ozone_wh.test_external;
+```
+Expected output
+
+
+|                   createtab_stmt                   |
+| CREATE EXTERNAL TABLE `ozone_wh`.`test_external`(  |
+|   `name` string,                                   |
+|   `value` string)                                  |
+| ROW FORMAT SERDE                                   |
+|   'org.apache.hadoop.hive.serde2.lazy.LazySimpleSerDe'  |
+| STORED AS INPUTFORMAT                              |
+|   'org.apache.hadoop.mapred.TextInputFormat'       |
+| OUTPUTFORMAT                                       |
+|   'org.apache.hadoop.hive.ql.io.HiveIgnoreKeyTextOutputFormat' |
+| LOCATION                                           |
+|   'ofs://ozone/hive/warehouse/external/test_external' |
+| TBLPROPERTIES (                                    |
+|   'bucketing_version'='2',                         |
+|   'transient_lastDdlTime'='1694623601')            |
+
+```beeline
+insert into ozone_wh.test_external values ('foo1', 'bar1');
+```
+Expected output
+
+----------------------------------------------------------------------------------------------
+        VERTICES      MODE        STATUS  TOTAL  COMPLETED  RUNNING  PENDING  FAILED  KILLED
+----------------------------------------------------------------------------------------------
+Map 1 .......... container     SUCCEEDED      1          1        0        0       0       0
+Reducer 2 ...... container     SUCCEEDED      1          1        0        0       0       0  9, numFilesErasureCoded=0]
+----------------------------------------------------------------------------------------------
+VERTICES: 02/02  [==========================>>] 100%  ELAPSED TIME: 6.65 s
+----------------------------------------------------------------------------------------------
+1 row affected (7.096 seconds)
+
+Exit the beeline and display the content of the managed hive warehouse in ozone 
+```console
+ ozone fs -ls -R ofs://ozone/hive/warehouse/managed
+```
+
+Expected output
+`drwxrwxrwx   - admin admin          0 2023-09-13 16:36 ofs://ozone/hive/warehouse/managed/test_managed`
+`drwxrwxrwx   - admin admin          0 2023-09-13 16:46 ofs://ozone/hive/warehouse/managed/test_managed/delta_0000001_0000001_0000`
+`-rw-rw-rw-   1 admin admin        741 2023-09-13 16:46 ofs://ozone/hive/warehouse/managed/test_managed/delta_0000001_0000001_0000/bucket_00000_0`
 
 
 # Lab 6 Ozone S3 gateway
