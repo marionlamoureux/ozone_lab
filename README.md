@@ -476,7 +476,7 @@ Expected output
   "modificationTime" : "2023-09-13T10:43:04.625Z",
   "quotaInBytes" : -1,
   "quotaInNamespace" : -1,
-  "bucketLayout" : "*FILE_SYSTEM_OPTIMIZED*",
+  "bucketLayout" : "FILE_SYSTEM_OPTIMIZED",
   "owner" : "admin",
   "link" : false
 }`
@@ -500,7 +500,7 @@ Expected Output
   "modificationTime" : "2023-09-13T10:44:22.166Z",
   "quotaInBytes" : -1,
   "quotaInNamespace" : -1,
-  "bucketLayout" : "**OBJECT_STORE**",
+  "bucketLayout" : "OBJECT_STORE",
   "owner" : "admin",
   "link" : false
 }`
@@ -522,6 +522,24 @@ Under Allow Conditions, add your admin user to the users with RWX permissions (e
 ![RangerforHDFS](./images/RangerforHDFS.png)
 **Save** your changes to the Ranger policy
 
+The below command creates a bucket by default
+```console
+ozone fs -mkdir -p ofs://ozone/hive/warehouse/cp/vehicles
+```
+
+Copy files to the bucket
+```console
+ozone fs -cp hdfs:///tmp/vehicles.csv ofs://ozone/hive/warehouse/cp/vehicles
+```
+*Note*
+Files downloaded from https://www.fueleconomy.gov/feg/epadata/vehicles.csv were copied into your tmp folder. If they are missing, ssh as root (usually user is "centos") to the node and run the below command:
+*sudo yum install -y wget
+wget -qO - https://www.fueleconomy.gov/feg/epadata/vehicles.csv | hdfs dfs -copyFromLocal - /tmp/vehicles.csv*
+
+Once copied over, list the files in the Ozone bucket:
+```console
+ozone fs -ls ofs://ozone/hive/warehouse/cp/vehicles
+```
 
 # Lab 5 Hive & Spark on base
 
