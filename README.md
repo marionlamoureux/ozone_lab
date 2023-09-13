@@ -299,11 +299,11 @@ Expected output
 Delete volume, buckets and create another volume and bucket associated to this exercise
 
 ```console
-ozone sh volume delete o3://ozone/my-volume1
+ozone sh volume delete o3://ozone/vol1
 ```
 Expected output is an error message as the volume contains a bucket
 ```console
-ozone sh bucket delete o3://ozone/my-volume1/my-bucket3
+ozone sh bucket delete o3://ozone/vol1/bucket3
 ```
 List operations
 ```cpnsole
@@ -311,30 +311,30 @@ ozone sh volume list --user=admin
 ozone sh volume list --all o3://ozone 
 # a variant which provides all the volumes for a dedicated user
 ozone sh volume list --all o3://ozone | grep -A3 'metadata' | grep 'name\|owner\|admin'
-ozone sh bucket list o3://ozone/my-volume1/
+ozone sh bucket list o3://ozone/vol1/
 ```
 
 get information from volume, bucket, key
 ```console
-ozone sh volume info o3://ozone/my-volume1
-ozone sh bucket info o3://ozone/my-volume1/my-bucket1
+ozone sh volume info o3://ozone/vol1
+ozone sh bucket info o3://ozone/vol1/bucket1
 ```
 
 Quota operations
 ```console
 # set a quota 
 ## namespace-quota mean max number of buckets or keys
-ozone sh volume setquota --namespace-quota=2 --space-quota 100MB o3://ozone/my-volume1
-ozone sh bucket setquota --namespace-quota=10 --space-quota 100MB o3://ozone/my-volume1/my-bucket1 
+ozone sh volume setquota --namespace-quota=2 --space-quota 100MB o3://ozone/vol1
+ozone sh bucket setquota --namespace-quota=10 --space-quota 100MB o3://ozone/vol1/bucket1 
 #remove a quota
-ozone sh volume clrquota --namespace-quota o3://ozone/my-volume1
-ozone sh bucket clrquota --space-quota o3://ozone/my-volume1/my-bucket1
+ozone sh volume clrquota --namespace-quota o3://ozone/vol1
+ozone sh bucket clrquota --space-quota o3://ozone/vol1/bucket1
 ```
 
 Symlinks
 Symlinks are relevant when s3 operation required. you do not create a bucket within the volume srv but you symlink a bucket in it
 ```console
-ozone sh bucket link o3://ozone/my-volume1/my-bucket1 o3://ozone/my-volume1/my-bucket3
+ozone sh bucket link o3://ozone/my-volume1/my-bucket1 o3://ozone/vol1/bucket3
 ```
 
 Ozone bucket Erasure coding  ⇒ **won't fully work on a 1 node cluster**
@@ -573,7 +573,7 @@ We will also check the h2s parameter to allow managed db and table on both ozone
 Give your users all privileges on HadoopSQL repo in Ranger. Open Ranger UI, access the Hadoop SQL service, add your user to all - database, table, column policy and Save.
 ![RangerHadoopSQL](./images/RangerHadoopSQL.png)
 
-In the sqme HadoopSQL tab, add your user to the "all - url" policy, this is needed for Spark
+In the same HadoopSQL tab, add your user to the "all - url" policy, this is needed for Spark
 ![RangerAllurls](./images/RangerAllurls.png)
 
 Next, provide “hive” and “yarn” user all privileges on Ozone.
@@ -586,6 +586,25 @@ Check HiveServer 2 configuration:
 
 within hive_hs2_config_safety_valve add  metastore.warehouse.tenant.colocation=true
 ![hiveontezconfig](./images/hiveontezconfig.png)
+
+Detailed operations:
+
+You need to add parameter to your spark shell in order to interact with ozone
+Spark-shell
+Let's push some data to ozone first.
+```console
+ozone fs -put /var/log/hadoop-ozone/ozone-recon.log ofs://ozone/vol1/bucket1/
+```
+
+within Spark-shell
+```console
+spark-shell --conf spark.yarn.access.hadoopFileSystems=ofs://ozone
+```
+
+```scala
+val dfofs=spark.read.option("header", "true").option("inferSchema", "true").csv(s"ofs://ozone/vol1/bucket1/ozone-recon.log")
+dfofs.collect()
+```
 
 
 
