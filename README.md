@@ -313,10 +313,13 @@ Expected output is an error message as the volume contains a bucket
 ozone sh bucket delete o3://ozone/vol1/bucket3
 ```
 List operations
-```cpnsole
+```console
 ozone sh volume list --user=admin
-ozone sh volume list --all o3://ozone 
-# a variant which provides all the volumes for a dedicated user
+ozone sh volume list --all o3://ozone
+```
+
+A variant which provides all the volumes for a dedicated user
+```console
 ozone sh volume list --all o3://ozone | grep -A3 'metadata' | grep 'name\|owner\|admin'
 ozone sh bucket list o3://ozone/vol1/
 ```
