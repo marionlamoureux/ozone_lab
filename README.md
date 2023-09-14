@@ -104,8 +104,8 @@ As Alice, user with extended access, the expected response is:
 `23/09/12 12:05:18 INFO rpc.RpcClient: Creating Volume: testperms1, with alice as owner and space quota set to -1 bytes, counts quota set to -1`
 
 Create a test file and a bucket and save the file in the bucket using parameters:
-Replication = ONE
-Replication type = RATIS
+- Replication = ONE
+- Replication type = RATIS
 
 ```console
 echo "Test file" > testfile
