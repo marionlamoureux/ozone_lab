@@ -95,6 +95,10 @@ Try the same command as Alice:
 ```console
 ozone sh volume create /testperms
 ```
+List the volumes available
+```console
+ozone sh volume list  | jq -r '.[] | .name'
+```
 
 As Alice, user with extended access, the expected response is:
 `23/09/12 12:05:18 INFO rpc.RpcClient: Creating Volume: testperms1, with alice as owner and space quota set to -1 bytes, counts quota set to -1`
@@ -108,7 +112,10 @@ echo "Test file" > testfile
 ozone sh bucket create /testperms/bucket1
 ozone sh key put --replication=ONE --replication-type=RATIS o3://ozone/testperms/bucket1/alice_key1 testfile
 ```
-
+List the buckets avaible in volume testperms
+```console
+ozone sh bucket list /testperms | jq -r '.[] | .name'
+```
 
 ## 1.3 Reviewing Ozone Security Settings
 
