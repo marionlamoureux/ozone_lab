@@ -752,17 +752,3 @@ and run
 ```beeline
 CREATE DATABASE testofs LOCATION 'ofs://ozone/user/alice-db/testofs-ext' MANAGEDLOCATION 'ofs://ozone/user/alice-db/testofs-managed' ;
 ```
-
-# Lab 6 Ozone S3 gateway
-
-Summary steps:
-- download and install the aws s3 cli
-- get the om-service-id
-- get an ozone secret key for userX
-- configure aws s3 cli to work with ozone
-- CA operations:
-  - ozone certificate find which alias
-  - certificate.jks ozone export alias to s3g-ca.crt
-  - transform .crt to .pem
-- ozone symlink a bucker from your volume to ozone s3v standard volume
-- s3a: which api is compatible with ozone
