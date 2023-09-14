@@ -330,7 +330,7 @@ ozone sh volume info o3://ozone/vol1
 ozone sh bucket info o3://ozone/vol1/bucket1
 ```
 
-Quota operations
+#### Quota operations
 ```console
 # set a quota 
 ## namespace-quota mean max number of buckets or keys
@@ -341,7 +341,8 @@ ozone sh volume clrquota --namespace-quota o3://ozone/vol1
 ozone sh bucket clrquota --space-quota o3://ozone/vol1/bucket1
 ```
 
-Symlinks
+#### Symlinks
+
 Symlinks are relevant when s3 operation required. You do not create a bucket within the volume srv but you symlink a bucket in it
 ```console
 ozone sh bucket link o3://ozone/vol1/bucket1 o3://ozone/vol1/bucket3
@@ -352,7 +353,10 @@ Ozone supports RATIS and Erasure Coding Replication types.
 Default replication type is RATIS and the replication factor is 3. Copies of container replicas are maintained across the cluster. RATIS 3 replication has 200% storage overhead.
 For cold and warm data with low I/O requirement EC storage is available. 50% replication overhead.
 
-Create Erasure Coded(EC) buckets/keys
+#### Create Erasure Coded(EC) buckets/keys
+
+
+
 ```console
 ozone sh bucket create /vol1/ec5-bucket1 -t EC -r rs-3-2-1024k
 ozone sh bucket info  /vol1/ec5-bucket1
