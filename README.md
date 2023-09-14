@@ -342,9 +342,9 @@ ozone sh bucket clrquota --space-quota o3://ozone/vol1/bucket1
 ```
 
 Symlinks
-Symlinks are relevant when s3 operation required. you do not create a bucket within the volume srv but you symlink a bucket in it
+Symlinks are relevant when s3 operation required. You do not create a bucket within the volume srv but you symlink a bucket in it
 ```console
-ozone sh bucket link o3://ozone/my-volume1/my-bucket1 o3://ozone/vol1/bucket3
+ozone sh bucket link o3://ozone/vol1/bucket1 o3://ozone/vol1/bucket3
 ```
 
 Ozone bucket Erasure coding  ⇒ **won't fully work on a 1 node cluster**
