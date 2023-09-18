@@ -254,7 +254,6 @@ ozone fs -rm -r -skipTrash ofs://ozone/vol1/bucket1/cloudera-scm-agent.log
 Expected output  
 `Deleted ofs://ozone/vol1/bucket1/testfile`
 
-
 #### Ozone sh
 summary operations:
 - create a volume
@@ -317,13 +316,15 @@ Expected output
 Delete volume, buckets and create another volume and bucket associated to this exercise
 
 ```console
-ozone sh volume delete o3://ozone/vol1
+ozone sh volume delete o3://ozone/vol2
 ```
 Expected output is an error message as the volume contains a bucket
 
 ```console
-ozone sh bucket delete o3://ozone/vol1/bucket3
+ozone sh bucket delete o3://ozone/vol2/bucket1
+ozone sh volume delete o3://ozone/vol2
 ```
+
 List operations
 ```console
 ozone sh volume list --user=admin
@@ -333,7 +334,7 @@ ozone sh volume list --all o3://ozone
 A variant which provides all the volumes for a dedicated user
 ```console
 ozone sh volume list --all o3://ozone | grep -A3 'metadata' | grep 'name\|owner\|admin'
-ozone sh bucket list o3://ozone/vol1/
+ozone sh bucket list o3://ozone/vol1
 ```
 
 get information from volume, bucket, key
