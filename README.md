@@ -693,9 +693,9 @@ show create table ozone_wh.test_external;
 Expected output  
 
 |                   createtab_stmt                   |
-| CREATE EXTERNAL TABLE `ozone_wh`.`test_external`(  |
-|   `name` string,                                   |
-|   `value` string)                                  |
+| CREATE EXTERNAL TABLE ozone_wh.test_external(  |
+|   name string,                                   |
+|   value string)                                  |
 | ROW FORMAT SERDE                                   |
 |   'org.apache.hadoop.hive.serde2.lazy.LazySimpleSerDe'  |
 | STORED AS INPUTFORMAT                              |
