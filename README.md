@@ -84,7 +84,7 @@ ozone sh volume create /testperms
 
 As Bob, user with restricted access, the expected response is:
 
-`23/09/12 11:54:42 INFO rpc.RpcClient: Creating Volume: testperms, with bob as owner and space quota set to -1 bytes, counts quota set to -1`
+`23/09/12 11:54:42 INFO rpc.RpcClient: Creating Volume: testperms, with bob as owner and space quota set to -1 bytes, counts quota set to -1`  
 `PERMISSION_DENIED User bob@WORKSHOP.COM doesn't have CREATE permission to access volume Volume:testperms`
 
 Switch to user Alice to create a volume and a file:
@@ -127,7 +127,7 @@ ozone getconf -confKey ozone.om.kerberos.principal
 ozone getconf -confKey ozone.om.http.auth.kerberos.principal
 ozone getconf -confKey ozone.om.http.auth.kerberos.keytab
 ```
-Expected output
+Expected output  
 `om/_HOST@WORKSHOP.COM`  
 `HTTP/_HOST@REALM`  
 `/etc/security/keytabs/HTTP.keytab`  
@@ -137,12 +137,11 @@ Expected output
 
 ### Ozone Protocols:
 
-Ozone has multiple protocols to work with for a variety of operations. 
-There is no ONE PROTOCOL THAT RULES THEM ALL yet.
+Ozone has multiple protocols to work with for a variety of operations. There is no ONE PROTOCOL THAT RULES THEM ALL yet.
 
 ![Ozone protocoles.png](./images/Ozoneprotocoles.png)
 
-Ozone is a multi-protocol storage system with support for the following interfaces:
+Ozone is a multi-protocol storage system with support for the following interfaces:  
 - **ofs**: Hadoop-compatible file system allows any application that expects an HDFS like interface to work against Ozone with no changes. Frameworks like Apache Spark, YARN, and Hive work against Ozone without the need for any change. 
 - **s3**: Amazon’s Simple Storage Service (S3) protocol. You can use S3 clients and S3 SDK-based applications without any modifications to Ozone.  => try to avoid this protocol since all passes through the s3ateway 
 - **o3fs**: A bucket-rooted Hadoop Compatible file system interface. 
@@ -172,23 +171,22 @@ Run the following command to list the files stored in HDFS.
 ozone fs -ls /
 ```
 
-Expected output is the list of files stored in HDFS:
-`drwxr-xr-x   - hbase hbase               0 2023-09-09 13:12 /hbase`
-`drwxr-xr-x   - hdfs  supergroup          0 2023-09-09 13:08 /ranger`
-`drwxrwxr-x   - solr  solr                0 2023-09-09 13:09 /solr-infra`
-`drwxrwxrwt   - hdfs  supergroup          0 2023-09-09 13:19 /tmp`
-`drwxr-xr-x   - hdfs  supergroup          0 2023-09-09 13:17 /user`
-`drwxr-xr-x   - hdfs  supergroup          0 2023-09-09 13:10 /warehouse`
-`drwxr-xr-x   - hdfs  supergroup          0 2023-09-09 13:10 /yarn`
+Expected output is the list of files stored in HDFS:  
+`drwxr-xr-x   - hbase hbase               0 2023-09-09 13:12 /hbase`  
+`drwxr-xr-x   - hdfs  supergroup          0 2023-09-09 13:08 /ranger`  
+`drwxrwxr-x   - solr  solr                0 2023-09-09 13:09 /solr-infra`  
+`drwxrwxrwt   - hdfs  supergroup          0 2023-09-09 13:19 /tmp`  
+`drwxr-xr-x   - hdfs  supergroup          0 2023-09-09 13:17 /user`  
+`drwxr-xr-x   - hdfs  supergroup          0 2023-09-09 13:10 /warehouse`  
+`drwxr-xr-x   - hdfs  supergroup          0 2023-09-09 13:10 /yarn`  
 
  List the current ozone file system for Ozone sid ozone:
 ```console
 ozone fs -ls ofs://ozone/
 ```
-Volumes are at the highest level of the Ozone file system and are used to manage buckets that store keys.
-Quotas and user permissions can be applied to volumes for high-level file system management.
+Volumes are at the highest level of the Ozone file system and are used to manage buckets that store keys. Quotas and user permissions can be applied to volumes for high-level file system management.
 
-Expected output for listing Ozone items at parent level:
+Expected output for listing Ozone items at parent level:  
 `drwxrwxrwx   - om                       0 2023-09-11 18:29 ofs://ozone/s3v`
 
 
@@ -198,19 +196,19 @@ ozone fs -mkdir ofs://ozone/vol1
 ozone fs -ls ofs://ozone/
 ```
 
-Expected output after volume creation and list command:
-`drwxrwxrwx   - om                       0 2023-09-11 18:29 ofs://ozone/s3v`
-`drwxrwxrwx   - admin admins             0 2023-09-12 14:34 ofs://ozone/vol1`
+Expected output after volume creation and list command:  
+`drwxrwxrwx   - om                       0 2023-09-11 18:29 ofs://ozone/s3v`  
+`drwxrwxrwx   - admin admins             0 2023-09-12 14:34 ofs://ozone/vol1`  
 
 Create a bucket in vol1 called bucket1 and list all items under volume 1. Buckets are used to store files.
 ```console
 ozone fs -mkdir ofs://ozone/vol1/bucket1
 ozone fs -ls ofs://ozone/vol1
 ```
-Expected output
+Expected output  
 `23/09/12 16:36:37 INFO rpc.RpcClient: Creating Bucket: vol1/bucket1, with the Bucket Layout FILE_SYSTEM_OPTIMIZED,
-admin as owner, Versioning false, Storage Type set to DISK and Encryption set to false`
-`drwxrwxrwx   - admin admins          0 2023-09-12 16:36 ofs://ozone/vol1/bucket1`
+admin as owner, Versioning false, Storage Type set to DISK and Encryption set to false`  
+`drwxrwxrwx   - admin admins          0 2023-09-12 16:36 ofs://ozone/vol1/bucket1`  
 
 OFS mimics a traditional file system, the first two levels volume and bucket look like directories.
 However, you cannot use the top level volume to store keys (files). When you add a key (file), it stores the contents of the file uploaded to Ozone under that key name. 
@@ -243,7 +241,7 @@ To bypass the trash to save disk space from keeping around files in the .Trash f
 ```console
 ozone fs -rm -r -skipTrash ofs://ozone/vol1/bucket1/testfile
 ```
-Expected output
+Expected output  
 `Deleted ofs://ozone/vol1/bucket1/testfile`
 
 
@@ -263,47 +261,47 @@ Create a volume /vol2
 ```console
 ozone sh volume create o3://ozone/vol2  ### or ozone sh volume create /vol2
 ```
-Expected output
-`ozone sh volume info /vol2
-{
-  "metadata" : { },
-  "name" : "vol2",
-  "admin" : "centos",
-  "owner" : "centos",
-  "quotaInBytes" : -1,
-  "quotaInNamespace" : -1,
-  "usedNamespace" : 0,
-  "creationTime" : "2023-04-18T03:45:41.930Z",
-  "modificationTime" : "2023-04-18T03:45:41.930Z",
-  "acls" : [ {
-    "type" : "USER",
-    "name" : "centos",
-    "aclScope" : "ACCESS",
-    "aclList" : [ "ALL" ]
-  }`
-
+Expected output  
+`ozone sh volume info /vol2  
+{  
+  "metadata" : { },  
+  "name" : "vol2",  
+  "admin" : "centos",  
+  "owner" : "centos",  
+  "quotaInBytes" : -1,  
+  "quotaInNamespace" : -1,  
+  "usedNamespace" : 0,  
+  "creationTime" : "2023-04-18T03:45:41.930Z",  
+  "modificationTime" : "2023-04-18T03:45:41.930Z",  
+  "acls" : [ {  
+    "type" : "USER",  
+    "name" : "centos",  
+    "aclScope" : "ACCESS",  
+    "aclList" : [ "ALL" ]  
+  }`  
+  
 Create a bucket bucket1 under /vol2
 ```console
 ozone sh bucket create /vol2/bucket1
 ```
-Expected output
-`ozone sh bucket info /vol2/bucket1
-{
-  "metadata" : { },
-  "volumeName" : "vol2",
-  "name" : "bucket1",
-  "storageType" : "DISK",
-  "versioning" : false,
-  "usedBytes" : 0,
-  "usedNamespace" : 0,
-  "creationTime" : "2023-04-18T03:46:37.236Z",
-  "modificationTime" : "2023-04-18T03:46:37.236Z",
-  "quotaInBytes" : -1,
-  "quotaInNamespace" : -1,
-  "bucketLayout" : "LEGACY",
-  "owner" : "centos",
-  "link" : false
-}`
+Expected output  
+`ozone sh bucket info /vol2/bucket1  
+{  
+  "metadata" : { },  
+  "volumeName" : "vol2",  
+  "name" : "bucket1",  
+  "storageType" : "DISK",  
+  "versioning" : false,  
+  "usedBytes" : 0,  
+  "usedNamespace" : 0,  
+  "creationTime" : "2023-04-18T03:46:37.236Z",  
+  "modificationTime" : "2023-04-18T03:46:37.236Z",  
+  "quotaInBytes" : -1,  
+  "quotaInNamespace" : -1,  
+  "bucketLayout" : "LEGACY",  
+  "owner" : "centos",  
+  "link" : false  
+}`  
 
 
 Delete volume, buckets and create another volume and bucket associated to this exercise
@@ -312,6 +310,7 @@ Delete volume, buckets and create another volume and bucket associated to this e
 ozone sh volume delete o3://ozone/vol1
 ```
 Expected output is an error message as the volume contains a bucket
+
 ```console
 ozone sh bucket delete o3://ozone/vol1/bucket3
 ```
@@ -358,68 +357,64 @@ For cold and warm data with low I/O requirement EC storage is available. 50% rep
 
 #### Create Erasure Coded(EC) buckets/keys
 
-
-
 ```console
 ozone sh bucket create /vol1/ec5-bucket1 -t EC -r rs-3-2-1024k
 ozone sh bucket info  /vol1/ec5-bucket1
 ```
-Expected output
-`{
-  "metadata" : { },
-  "volumeName" : "vol1",
-  "name" : "ec5-bucket1",
-  "storageType" : "DISK",
-  "versioning" : false,
-  "usedBytes" : 0,
-  "usedNamespace" : 0,
-  "creationTime" : "2023-04-19T17:41:02.340Z",
-  "modificationTime" : "2023-04-19T17:41:02.340Z",
-  "quotaInBytes" : -1,
-  "quotaInNamespace" : -1,
-  "bucketLayout" : "LEGACY",
-  "owner" : "cdpuser1",
-  "replicationConfig" : {
-    "data" : 3,
-    "parity" : 2,
-    "ecChunkSize" : 1048576,
-    "codec" : "RS",
-    "replicationType" : "EC",
-    "requiredNodes" : 5
-  },
-  "link" : false
-}
-`
+Expected output  
+`{  
+  "metadata" : { },  
+  "volumeName" : "vol1",  
+  "name" : "ec5-bucket1",  
+  "storageType" : "DISK",  
+  "versioning" : false,  
+  "usedBytes" : 0,  
+  "usedNamespace" : 0,  
+  "creationTime" : "2023-04-19T17:41:02.340Z",  
+  "modificationTime" : "2023-04-19T17:41:02.340Z",  
+  "quotaInBytes" : -1,  
+  "quotaInNamespace" : -1,  
+  "bucketLayout" : "LEGACY",  
+  "owner" : "cdpuser1",  
+  "replicationConfig" : {  
+    "data" : 3,  
+    "parity" : 2,  
+    "ecChunkSize" : 1048576,  
+    "codec" : "RS",  
+    "replicationType" : "EC",  
+    "requiredNodes" : 5  
+  },  
+  "link" : false  
+}`  
 
 ```console
 ozone sh bucket create /vol1/ec9-bucket1 -t EC -r rs-6-3-1024k
 ozone sh bucket info  /vol1/ec9-bucket1
 ```
-`{
-  "metadata" : { },
-  "volumeName" : "vol1",
-  "name" : "ec9-bucket1",
-  "storageType" : "DISK",
-  "versioning" : false,
-  "usedBytes" : 0,
-  "usedNamespace" : 0,
-  "creationTime" : "2023-04-19T17:42:03.273Z",
-  "modificationTime" : "2023-04-19T17:42:03.273Z",
-  "quotaInBytes" : -1,
-  "quotaInNamespace" : -1,
-  "bucketLayout" : "LEGACY",
-  "owner" : "cdpuser1",
-  "replicationConfig" : {
-    "data" : 6,
-    "parity" : 3,
-    "ecChunkSize" : 1048576,
-    "codec" : "RS",
-    "replicationType" : "EC",
-    "requiredNodes" : 9
-  },
-  "link" : false
-}
-`
+`{  
+  "metadata" : { },  
+  "volumeName" : "vol1",  
+  "name" : "ec9-bucket1",  
+  "storageType" : "DISK",  
+  "versioning" : false,  
+  "usedBytes" : 0,  
+  "usedNamespace" : 0,  
+  "creationTime" : "2023-04-19T17:42:03.273Z",  
+  "modificationTime" : "2023-04-19T17:42:03.273Z",  
+  "quotaInBytes" : -1,  
+  "quotaInNamespace" : -1,  
+  "bucketLayout" : "LEGACY",  
+  "owner" : "cdpuser1",  
+  "replicationConfig" : {  
+    "data" : 6,  
+    "parity" : 3,  
+    "ecChunkSize" : 1048576,  
+    "codec" : "RS",  
+    "replicationType" : "EC",  
+    "requiredNodes" : 9  
+  },  
+  "link" : false  
+}`  
 
 For reference:  you can update replication config for existing buckets:
 ```console
@@ -427,31 +422,29 @@ ozone sh bucket create /vol1/bucket1
 ozone sh bucket set-replication-config /vol1/bucket1 -t EC -r rs-3-2-1024k 
 ozone sh bucket info /vol1/bucket1
 ```
-`
-{
-  "metadata" : { },
-  "volumeName" : "vol1",
-  "name" : "bucket1",
-  "storageType" : "DISK",
-  "versioning" : false,
-  "usedBytes" : 0,
-  "usedNamespace" : 0,
-  "creationTime" : "2023-04-19T17:42:27.327Z",
-  "modificationTime" : "2023-04-19T17:42:32.026Z",
-  "quotaInBytes" : -1,
-  "quotaInNamespace" : -1,
-  "bucketLayout" : "LEGACY",
-  "replicationConfig" : {
-    "data" : 3,
-    "parity" : 2,
-    "ecChunkSize" : 1048576,
-    "codec" : "RS",
-    "replicationType" : "EC",
-    "requiredNodes" : 5
-  },
-  "link" : false
-}
-`
+`{  
+  "metadata" : { },  
+  "volumeName" : "vol1",  
+  "name" : "bucket1",  
+  "storageType" : "DISK",  
+  "versioning" : false,  
+  "usedBytes" : 0,  
+  "usedNamespace" : 0,  
+  "creationTime" : "2023-04-19T17:42:27.327Z",  
+  "modificationTime" : "2023-04-19T17:42:32.026Z",  
+  "quotaInBytes" : -1,  
+  "quotaInNamespace" : -1,  
+  "bucketLayout" : "LEGACY",  
+  "replicationConfig" : {  
+    "data" : 3,  
+    "parity" : 2,  
+    "ecChunkSize" : 1048576,  
+    "codec" : "RS",  
+    "replicationType" : "EC",  
+    "requiredNodes" : 5  
+  },  
+  "link" : false  
+}`  
 
 
 # Lab 3 Bucket options FSO / OBS
@@ -480,47 +473,46 @@ ozone sh bucket create /vol1/fso-bucket --layout FILE_SYSTEM_OPTIMIZED
 ozone sh bucket info /vol1/fso-bucket
 ```
 
-Expected output
-`{
-  "metadata" : { },
-  "volumeName" : "vol1",
-  "name" : "fso-bucket",
-  "storageType" : "DISK",
-  "versioning" : false,
-  "usedBytes" : 0,
-  "usedNamespace" : 0,
-  "creationTime" : "2023-09-13T10:43:04.625Z",
-  "modificationTime" : "2023-09-13T10:43:04.625Z",
-  "quotaInBytes" : -1,
-  "quotaInNamespace" : -1,
-  "bucketLayout" : "FILE_SYSTEM_OPTIMIZED",
-  "owner" : "admin",
-  "link" : false
-}`
+Expected output  
+`{  
+  "metadata" : { },  
+  "volumeName" : "vol1",  
+  "name" : "fso-bucket",  
+  "storageType" : "DISK",  
+  "versioning" : false,  
+  "usedBytes" : 0,  
+  "usedNamespace" : 0,  
+  "creationTime" : "2023-09-13T10:43:04.625Z",  
+  "modificationTime" : "2023-09-13T10:43:04.625Z",  
+  "quotaInBytes" : -1,  
+  "quotaInNamespace" : -1,  
+  "bucketLayout" : "FILE_SYSTEM_OPTIMIZED",  
+  "owner" : "admin",  
+  "link" : false  
+}`  
 Within Vol1 already created, create a bucket with the OBS layout and display the information about the bucket
 ```console
 ozone sh bucket create /vol1/obs-bucket --layout OBJECT_STORE
 ozone sh bucket info /vol1/obs-bucket
 ```
 
-Expected Output
-`
-{
-  "metadata" : { },
-  "volumeName" : "vol1",
-  "name" : "obs-bucket",
-  "storageType" : "DISK",
-  "versioning" : false,
-  "usedBytes" : 0,
-  "usedNamespace" : 0,
-  "creationTime" : "2023-09-13T10:44:22.166Z",
-  "modificationTime" : "2023-09-13T10:44:22.166Z",
-  "quotaInBytes" : -1,
-  "quotaInNamespace" : -1,
-  "bucketLayout" : "OBJECT_STORE",
-  "owner" : "admin",
-  "link" : false
-}`
+Expected Output  
+`{  
+  "metadata" : { },  
+  "volumeName" : "vol1",  
+  "name" : "obs-bucket",  
+  "storageType" : "DISK",  
+  "versioning" : false,  
+  "usedBytes" : 0,  
+  "usedNamespace" : 0,  
+  "creationTime" : "2023-09-13T10:44:22.166Z",  
+  "modificationTime" : "2023-09-13T10:44:22.166Z",  
+  "quotaInBytes" : -1,  
+  "quotaInNamespace" : -1,  
+  "bucketLayout" : "OBJECT_STORE",  
+  "owner" : "admin",  
+  "link" : false  
+}`  
 
 # Lab 4 data copy HDFS ⇔ Ozone
 
@@ -530,9 +522,9 @@ Summary
 - distcp operations hdfs dataset to ozone
 - crc checksum validation via a spark-submit job
 
-Prerequisites
-In Ranger (log into Ranger UI using admin/Supersecret1).
-Select cm_hdfs under the HDFS service.
+Prerequisites  
+In Ranger (log into Ranger UI using admin/Supersecret1).  
+Select cm_hdfs under the HDFS service.  
 Once you are on the cm_hdfs page, edit the first policy called all-path by clicking its number or the Edit (pencil) button on the right.
 ![cm_HDFS](./images/cm_HDFS.png)
 Under Allow Conditions, add your admin user to the users with RWX permissions (e.g: admin)
