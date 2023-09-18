@@ -3,9 +3,11 @@ This lab is designed to go through some Ozone fundamentals such as volume bucket
 
 We will also explore some Cloudera security elements and how Ozone integrates broadly with the Cloudera ecosystem and beyond with the s3 gateway interaction.
 
+*Note: This lab is hosted on the edge2Ai 1 node deployment. It's meant for functional testing and not performance testing*
+
 # Lab 1 Security
 
-Summary
+**Summary**
 - Enable Ranger from the Cloudera Manager UI
 - Test Ranger privileges
 - Review Ozone Security Settings from the command line
@@ -14,7 +16,7 @@ Summary
 In Cloudera Manager, go to the Ozone service.
 ![[ClouderaManager-Ozoneservice.png]](./images/ClouderaManager-Ozoneservice.png)
 
-Select the Ozone Configuration tab and onfirm that RANGER Service is enabled.
+Select the Ozone Configuration tab and confirm that RANGER Service is enabled.
 ![OzoneConfiguration-Rangerenabled.png](./images/OzoneConfiguration-Rangerenabled.png)
 This integrates Ozone with Ranger security policies.
 
@@ -28,7 +30,7 @@ In the top policy listed as **all - volume, bucket and key**, click the pencil i
 
 ![EditpolicyforOzone.png](./images/EditpolicyforOzone.png)
 
-
+To understand the structure of the Ranger policy for Ozone, we can look at the layout for data in Ozone as well as the structure allow/deny conditions in all Ranger policies.
 Structure of the Ranger permissions for Ozone
 
 Ozone Data Layout
@@ -40,7 +42,7 @@ Ranger - Allow and deny conditions
 ![Ozonepermissionpage.png](./images/Ozonepermissionpage.png)
 
 
-**Test the following with users Bob and Alice**
+**Test the following with users Alice and Bob**
 Using the same Policy, set up to manage access over all Volume, buckets and keys:
 Volume = \*
 Bucket = \*
