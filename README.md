@@ -234,6 +234,15 @@ View content of the file:
 ozone fs -cat ofs://ozone/vol1/bucket1/testfile
 ```
 
+Let's try to upload another file to the bucket:  
+```console
+ozone fs -put /tmp/cloudera-scm-agent.log ofs://ozone/vol1/bucket1
+ozone fs -cat ofs://ozone/vol1/bucket1/cloudera-scm-agent.log
+```
+
+*Note: the cloudera-scm-agent.log is available under /var/log/cloudera-scm-agent/. it can be copied over to the temp folder using root access.
+
+
 ##### Deletion
 When you delete a file in Ozone using ozone fs, the file is not immediately removed from Ozone. Instead files are moved to a hidden .Trash dir (prefix dot Trash) that is user accessible under /user/<username>/.Trash/Current deleted directory. The full directory path of each user's deleted files will appear under this .Trash dir.
 
