@@ -715,14 +715,13 @@ insert into ozone_wh.test_external values ('foo1', 'bar1');
 
 Expected output  
 
-|---------------------------------------------------------------------------------------------|
+
 |        VERTICES      MODE        STATUS  TOTAL  COMPLETED  RUNNING  PENDING  FAILED  KILLED | 
 |---------------------------------------------------------------------------------------------|
 |Map 1 .......... container     SUCCEEDED      1          1        0        0       0       0 |
 |Reducer 2 ...... container     SUCCEEDED      1          1        0        0       0       0  9, numFilesErasureCoded=0]|
-|---------------------------------------------------------------------------------------------|
 |VERTICES: 02/02  [==========================>>] 100%  ELAPSED TIME: 6.65 s|
-|----------------------------------------------------------------------------------------------|  
+
 `1 row affected (7.096 seconds)`  
 
 Exit the beeline and display the content of the managed hive warehouse in ozone 
