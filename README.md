@@ -132,7 +132,6 @@ Expected output
 `HTTP/_HOST@REALM`  
 `/etc/security/keytabs/HTTP.keytab`  
 
-
 # Lab 2 Ozone protocol operations
 
 ### Ozone Protocols:
@@ -189,7 +188,6 @@ Volumes are at the highest level of the Ozone file system and are used to manage
 Expected output for listing Ozone items at parent level:  
 `drwxrwxrwx   - om                       0 2023-09-11 18:29 ofs://ozone/s3v`
 
-
 Create a volume called vol1 and list the ozone file system to see volumes
 ```console
 ozone fs -mkdir ofs://ozone/vol1
@@ -205,6 +203,7 @@ Create a bucket in vol1 called bucket1 and list all items under volume 1. Bucket
 ozone fs -mkdir ofs://ozone/vol1/bucket1
 ozone fs -ls ofs://ozone/vol1
 ```
+
 Expected output  
 `23/09/12 16:36:37 INFO rpc.RpcClient: Creating Bucket: vol1/bucket1, with the Bucket Layout FILE_SYSTEM_OPTIMIZED,
 admin as owner, Versioning false, Storage Type set to DISK and Encryption set to false`  
@@ -224,6 +223,7 @@ echo "Test file" > testfile
 ozone fs -put testfile ofs://ozone/vol1/bucket1
 ozone fs -ls ofs://ozone/vol1/bucket1
 ```
+
 Expected output for listing content of bucket1:  
 `-rw-rw-rw-   1 admin admin         10 2023-09-12 16:41 ofs://ozone/vol1/bucket1/testfile`  
 
@@ -240,8 +240,7 @@ ozone fs -put /tmp/cloudera-scm-agent.log ofs://ozone/vol1/bucket1
 ozone fs -cat ofs://ozone/vol1/bucket1/cloudera-scm-agent.log
 ```
 
-*Note: the cloudera-scm-agent.log is available under /var/log/cloudera-scm-agent/. it can be copied over to the temp folder using root access.
-
+*Note: the cloudera-scm-agent.log is available under /var/log/cloudera-scm-agent/. it can be copied over to the temp folder using root access. *
 
 ##### Deletion
 When you delete a file in Ozone using ozone fs, the file is not immediately removed from Ozone. Instead files are moved to a hidden .Trash dir (prefix dot Trash) that is user accessible under /user/<username>/.Trash/Current deleted directory. The full directory path of each user's deleted files will appear under this .Trash dir.
@@ -250,6 +249,7 @@ To bypass the trash to save disk space from keeping around files in the .Trash f
 
 ```console
 ozone fs -rm -r -skipTrash ofs://ozone/vol1/bucket1/testfile
+ozone fs -rm -r -skipTrash ofs://ozone/vol1/bucket1/cloudera-scm-agent.log
 ```
 Expected output  
 `Deleted ofs://ozone/vol1/bucket1/testfile`
