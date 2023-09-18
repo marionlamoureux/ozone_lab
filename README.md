@@ -121,16 +121,17 @@ ozone sh bucket list /testperms | jq -r '.[] | .name'
 
 ## 1.3 Reviewing Ozone Security Settings
 
-List the Kerberos principal and Kerberos tickets held in your credentials cache with klist. 
-If necessary, obtain a Kerberos ticket-granting ticket using kinit.
 Run the following ozone getconf commands to check some Ozone Manager properties:
-
-
 ```console
 ozone getconf -confKey ozone.om.kerberos.principal
 ozone getconf -confKey ozone.om.http.auth.kerberos.principal
 ozone getconf -confKey ozone.om.http.auth.kerberos.keytab
 ```
+Expected output
+`om/_HOST@WORKSHOP.COM`
+`HTTP/_HOST@REALM`
+`/etc/security/keytabs/HTTP.keytab`
+
 
 # Lab 2 Ozone protocol operations
 
