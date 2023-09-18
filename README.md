@@ -20,14 +20,14 @@ Select the Ozone Configuration tab and confirm that RANGER Service is enabled.
 ![OzoneConfiguration-Rangerenabled.png](./images/OzoneConfiguration-Rangerenabled.png)
 This integrates Ozone with Ranger security policies.
 
-Access the Ranger Service and access the Ranger UI
-![RangerService-UIurl.png](./images/RangerService-UIurl.png)
+Access the Ranger Service and access the Ranger UI  
+![RangerService-UIurl.png](./images/RangerService-UIurl.png)  
 
-Select cm_ozone under the Ozone service.
-![cm_ozoneinRanger.png](./images/cm_ozoneinRanger.png)
+Select cm_ozone under the Ozone service.  
 
-In the top policy listed as **all - volume, bucket and key**, click the pencil icon on the right that shows Edit when you hover over it.
+![cm_ozoneinRanger.png](./images/cm_ozoneinRanger.png)  
 
+In the top policy listed as **all - volume, bucket and key**, click the pencil icon on the right that shows Edit when you hover over it.  
 ![EditpolicyforOzone.png](./images/EditpolicyforOzone.png)
 
 To understand the structure of the Ranger policy for Ozone, we can look at the layout for data in Ozone as well as the structure allow/deny conditions in all Ranger policies.
