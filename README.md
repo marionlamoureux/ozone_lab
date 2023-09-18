@@ -128,9 +128,9 @@ ozone getconf -confKey ozone.om.http.auth.kerberos.principal
 ozone getconf -confKey ozone.om.http.auth.kerberos.keytab
 ```
 Expected output
-`om/_HOST@WORKSHOP.COM`
-`HTTP/_HOST@REALM`
-`/etc/security/keytabs/HTTP.keytab`
+`om/_HOST@WORKSHOP.COM`  
+`HTTP/_HOST@REALM`  
+`/etc/security/keytabs/HTTP.keytab`  
 
 
 # Lab 2 Ozone protocol operations
