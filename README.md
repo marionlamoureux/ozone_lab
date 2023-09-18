@@ -84,7 +84,7 @@ ozone sh volume create /testperms
 
 As Bob, user with restricted access, the expected response is:
 
-`23/09/12 11:54:42 INFO rpc.RpcClient: Creating Volume: testperms, with bob as owner and space quota set to -1 bytes, counts quota set to -1
+`23/09/12 11:54:42 INFO rpc.RpcClient: Creating Volume: testperms, with bob as owner and space quota set to -1 bytes, counts quota set to -1`
 `PERMISSION_DENIED User bob@WORKSHOP.COM doesn't have CREATE permission to access volume Volume:testperms`
 
 Switch to user Alice to create a volume and a file:
