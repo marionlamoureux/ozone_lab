@@ -43,10 +43,10 @@ Ranger - Allow and deny conditions
 
 
 **Test the following with users Alice and Bob**
-Using the same Policy, set up to manage access over all Volume, buckets and keys:
-Volume = \*
-Bucket = \*
-Key = \*
+Using the same Policy, set up to manage access over all Volume, buckets and keys:  
+Volume = \*  
+Bucket = \*  
+Key = \*  
 
 | Users  | Alice  | Bob  |
 |--------|------|--------|
