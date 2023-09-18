@@ -288,7 +288,7 @@ Expected output
 `ozone sh bucket info /vol2/bucket1  
 {  
   "metadata" : { },  
-  "volumeName" : "vol2",  
+  "volumeName" : "vol2", 
   "name" : "bucket1",  
   "storageType" : "DISK",  
   "versioning" : false,  
