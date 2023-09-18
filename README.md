@@ -663,8 +663,7 @@ create table ozone_wh.test_managed (name string, value string);
 show create table ozone_wh.test_managed;
 ```
 
-
-Expected output
+Expected output  
 
 |                   createtab_stmt                   |
 |----------------------------------------------------|
@@ -691,8 +690,7 @@ insert into ozone_wh.test_managed values ('foo1', 'bar1');
 create external table ozone_wh.test_external (name string, value string);
 show create table ozone_wh.test_external;
 ```
-Expected output
-
+Expected output  
 
 |                   createtab_stmt                   |
 | CREATE EXTERNAL TABLE `ozone_wh`.`test_external`(  |
@@ -714,39 +712,38 @@ Expected output
 insert into ozone_wh.test_external values ('foo1', 'bar1');
 ```
 
-Expected output
+Expected output  
 
-`---------------------------------------------------------------------------------------------`
-`        VERTICES      MODE        STATUS  TOTAL  COMPLETED  RUNNING  PENDING  FAILED  KILLED
-`----------------------------------------------------------------------------------------------`
-`Map 1 .......... container     SUCCEEDED      1          1        0        0       0       0`
-`Reducer 2 ...... container     SUCCEEDED      1          1        0        0       0       0  9, numFilesErasureCoded=0]`
-`----------------------------------------------------------------------------------------------`
-`VERTICES: 02/02  [==========================>>] 100%  ELAPSED TIME: 6.65 s`
-`----------------------------------------------------------------------------------------------`
-`1 row affected (7.096 seconds)`
-
+`---------------------------------------------------------------------------------------------`  
+`        VERTICES      MODE        STATUS  TOTAL  COMPLETED  RUNNING  PENDING  FAILED  KILLED  
+`----------------------------------------------------------------------------------------------`  
+`Map 1 .......... container     SUCCEEDED      1          1        0        0       0       0`  
+`Reducer 2 ...... container     SUCCEEDED      1          1        0        0       0       0  9, numFilesErasureCoded=0]`  
+`----------------------------------------------------------------------------------------------`  
+`VERTICES: 02/02  [==========================>>] 100%  ELAPSED TIME: 6.65 s`  
+`----------------------------------------------------------------------------------------------`  
+`1 row affected (7.096 seconds)`  
 
 Exit the beeline and display the content of the managed hive warehouse in ozone 
 ```console
  ozone fs -ls -R ofs://ozone/hive/warehouse/managed
 ```
 
-Expected output
-`drwxrwxrwx   - admin admin          0 2023-09-13 16:36 ofs://ozone/hive/warehouse/managed/test_managed`
-`drwxrwxrwx   - admin admin          0 2023-09-13 16:46 ofs://ozone/hive/warehouse/managed/test_managed/delta_0000001_0000001_0000`
-`-rw-rw-rw-   1 admin admin        741 2023-09-13 16:46 ofs://ozone/hive/warehouse/managed/test_managed/delta_0000001_0000001_0000/bucket_00000_0`
+Expected output  
+`drwxrwxrwx   - admin admin          0 2023-09-13 16:36 ofs://ozone/hive/warehouse/managed/test_managed`  
+`drwxrwxrwx   - admin admin          0 2023-09-13 16:46 ofs://ozone/hive/warehouse/managed/test_managed/delta_0000001_0000001_0000`  
+`-rw-rw-rw-   1 admin admin        741 2023-09-13 16:46 ofs://ozone/hive/warehouse/managed/test_managed/delta_0000001_0000001_0000/bucket_00000_0`  
 
 Now display the content of the external Hive warehouse in Ozone
 ```console
 ozone fs -ls -R ofs://ozone/hive/warehouse/external
 ```
-Expected outpuit
-`drwxrwxrwx   - admin admin          0 2023-09-13 16:46 ofs://ozone/hive/warehouse/external/test_external`
-`-rw-rw-rw-   1 admin admin         10 2023-09-13 17:01 ofs://ozone/hive/warehouse/external/test_external/000000_0`
+Expected output  
+`drwxrwxrwx   - admin admin          0 2023-09-13 16:46 ofs://ozone/hive/warehouse/external/test_external`  
+`-rw-rw-rw-   1 admin admin         10 2023-09-13 17:01 ofs://ozone/hive/warehouse/external/test_external/000000_0`  
 
 Create managed table on ozone
-Reopen the beeline shell
+Reopen the beeline shell  
 `beeline -u "jdbc:hive2://<hostnameX>:10000/default;principal=hive/<hostnameX>@WORKSHOP.COM;ssl=true;sslTrustStore=/opt/cloudera/security/jks/truststore.jks"`
 
 and run
