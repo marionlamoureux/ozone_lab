@@ -667,17 +667,17 @@ Expected output
 
 |                   createtab_stmt                   |
 |----------------------------------------------------|
-| CREATE TABLE `ozone_wh`.`test_managed`(            |
-|   `name` string,                                   |
-|   `value` string)                                  |
+| CREATE TABLE ozone_wh.test_managed(                |
+|   name string,                                     |
+|   value string)                                    |
 | ROW FORMAT SERDE                                   |
 |   'org.apache.hadoop.hive.ql.io.orc.OrcSerde'      |
 | STORED AS INPUTFORMAT                              |
-|   'org.apache.hadoop.hive.ql.io.orc.OrcInputFormat'  |
+|   'org.apache.hadoop.hive.ql.io.orc.OrcInputFormat'|
 | OUTPUTFORMAT                                       |
-|   'org.apache.hadoop.hive.ql.io.orc.OrcOutputFormat' |
+|  'org.apache.hadoop.hive.ql.io.orc.OrcOutputFormat'|
 | LOCATION                                           |
-|   'ofs://ozone/hive/warehouse/managed/test_managed' |
+|   'ofs://ozone/hive/warehouse/managed/test_managed'|
 | TBLPROPERTIES (                                    |
 |   'bucketing_version'='2',                         |
 |   'transactional'='true',                          |
@@ -692,21 +692,22 @@ show create table ozone_wh.test_external;
 ```
 Expected output  
 
-|                   createtab_stmt                   |
-| CREATE EXTERNAL TABLE ozone_wh.test_external(  |
-|   name string,                                   |
-|   value string)                                  |
-| ROW FORMAT SERDE                                   |
-|   'org.apache.hadoop.hive.serde2.lazy.LazySimpleSerDe'  |
-| STORED AS INPUTFORMAT                              |
-|   'org.apache.hadoop.mapred.TextInputFormat'       |
-| OUTPUTFORMAT                                       |
-|   'org.apache.hadoop.hive.ql.io.HiveIgnoreKeyTextOutputFormat' |
-| LOCATION                                           |
-|   'ofs://ozone/hive/warehouse/external/test_external' |
-| TBLPROPERTIES (                                    |
-|   'bucketing_version'='2',                         |
-|   'transient_lastDdlTime'='1694623601')            |
+|                   createtab_stmt                           |
+|------------------------------------------------------------|
+| CREATE EXTERNAL TABLE ozone_wh.test_external(              |
+|   name string,                                             |
+|   value string)                                            |
+| ROW FORMAT SERDE                                           |
+|   'org.apache.hadoop.hive.serde2.lazy.LazySimpleSerDe'     |
+| STORED AS INPUTFORMAT                                      |
+|   'org.apache.hadoop.mapred.TextInputFormat'               |
+| OUTPUTFORMAT                                               |
+|'org.apache.hadoop.hive.ql.io.HiveIgnoreKeyTextOutputFormat'|
+| LOCATION                                                   |
+|   'ofs://ozone/hive/warehouse/external/test_external'      |
+| TBLPROPERTIES (                                            |
+|   'bucketing_version'='2',                                 |
+|   'transient_lastDdlTime'='1694623601')                    |
 
 ```beeline
 insert into ozone_wh.test_external values ('foo1', 'bar1');
