@@ -274,10 +274,10 @@ Expected output
   "creationTime" : "2023-04-18T03:45:41.930Z",  
   "modificationTime" : "2023-04-18T03:45:41.930Z",  
   "acls" : [ {  
-    "type" : "USER",  
-    "name" : "centos",  
-    "aclScope" : "ACCESS",  
-    "aclList" : [ "ALL" ]  
+     "type" : "USER",  
+     "name" : "centos",  
+     "aclScope" : "ACCESS",  
+     "aclList" : [ "ALL" ]  
   }`  
   
 Create a bucket bucket1 under /vol2
