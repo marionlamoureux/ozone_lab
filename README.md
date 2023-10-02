@@ -321,13 +321,14 @@ Expected output
 Create a bucket bucket1 under /vol2
 ```console
 ozone sh bucket create /vol2/bucket1
+ozone sh bucket info /vol2/bucket1
 ```
 Expected output  
-`ozone sh bucket info /vol2/bucket1  
+`  
 {  
   "metadata" : { },  
-  "volumeName" : "vol2", 
-  "name" : "bucket1",  
+  "volumeName" : "vol2",  
+  "name" : "bucket1",   
   "storageType" : "DISK",  
   "versioning" : false,  
   "usedBytes" : 0,  
@@ -340,7 +341,6 @@ Expected output
   "owner" : "centos",  
   "link" : false  
 }`  
-
 
 Delete volume, buckets and create another volume and bucket associated to this exercise
 
