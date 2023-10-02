@@ -16,10 +16,11 @@ having a baseline knowledge of Cloudera product
 
 **Summary**
 - Enable Ranger from the Cloudera Manager UI
+- SSH to the node and start using the command line
 - Test Ranger privileges
 - Review Ozone Security Settings from the command line
 
-## 1.1 Enable and Configure Ranger
+## Enable and Configure Ranger
 In Cloudera Manager, go to the Ozone service.
 ![[ClouderaManager-Ozoneservice.png]](./images/ClouderaManager-Ozoneservice.png)
 
@@ -39,16 +40,16 @@ In the top policy listed as **all - volume, bucket and key**, click the pencil i
 
 To understand the structure of the Ranger policy for Ozone, we can look at the layout for data in Ozone as well as the structure allow/deny conditions in all Ranger policies. 
 
-*Structure of the Ranger permissions for Ozone*
-
 Ozone Data Layout
 ![OzoneDataLayout.png](./images/OzoneDataLayout.png)
-
+ 
 Ranger - Allow and deny conditions
 ![Ranger-AllowandDenyconditions.png](./images/Ranger-AllowandDenyconditions.png)
 
-![Ozonepermissionpage.png](./images/Ozonepermissionpage.png)
+ 
+*Structure of the Ranger permissions for Ozone* 
 
+![Ozonepermissionpage.png](./images/Ozonepermissionpage.png)
 
 **Test the following with users Alice and Bob**
 Using the same Policy, set up to manage access over all Volume, buckets and keys:  
@@ -61,8 +62,8 @@ Key = \*
 | Access |  All  |  Read/List file |
 |  Deny  | None |  Create Volume |
 
-Add users Admin and Alice to the existing "All" condition.
-
+Add users *Admin* and *Alice* to the existing "All" condition.
+ 
 Bob's accesses:
 - Click on the + button under the "Allow Conditions"![AddAllowCondition.png](./images/AddAllowCondition.png)
 - Under “Allow” condition add “read/list” privileges for the user Bob
@@ -72,12 +73,20 @@ Bob's accesses:
 
 ![DenyRangerPolicy.png](./images/DenyRangerPolicy.png)
 
-Add your username to the first “allow” condition (e.g. admin) to provide all privileges to your user.
+Double check you did add your username to the first “allow” condition (e.g. admin) to provide all privileges to your user. (you can run the entire lab under the user "admin" which is by default and for which the commands were written for simplicity. 
+
 ![AddusertoOzonepermissions.png](./images/AddusertoOzonepermissions.png)
 
 Scroll down to the bottom of the page and press Save.
 
-## 1.2 Test Ranger privileges
+## ssh to the node
+In Mac:
+ssh admin@cdp.`node ip`.nip.io
+
+In windows
+Use putty to ssh to cdp.`node ip`.nip.io
+
+## Test Ranger privileges
 
 Authenticate the user Bob with the Authentication Service of the KDC configured in /etc/krb5. conf
 ```console
@@ -127,7 +136,7 @@ List the buckets avaible in volume testperms
 ozone sh bucket list /testperms | jq -r '.[] | .name'
 ```
 
-## 1.3 Reviewing Ozone Security Settings
+## Reviewing Ozone Security Settings
 
 Run the following ozone getconf commands to check some Ozone Manager properties:
 ```console
