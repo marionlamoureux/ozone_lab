@@ -134,8 +134,15 @@ ozone sh key put --replication=ONE --replication-type=RATIS o3://ozone/testperms
 List the buckets avaible in volume testperms and kinit back as user admin
 ```console
 ozone sh bucket list /testperms | jq -r '.[] | .name'
+```
+
+delete it all and kinit back as user admin
+```console
+ozone fs -rm -r -skipTrash ofs://ozone/testperms/bucket1/alice_key1
+ozone sh bucket delete o3://ozone/testperms/bucket1
+ozone sh volume delete o3://ozone/testperms
 kinit admin
-``` 
+```
 
 ## Reviewing Ozone Security Settings
 
@@ -187,7 +194,6 @@ Summary operations
 - create a bucket
 - push data to a bucket
 - delete data from a bucket
-
 
 The Ozone client can access Ozone as a file system and as a key-value store.
 When Ozone is installed with the HDFS dependency, the Ozone client library support is built into the HDFS client commands, which will therefore be available for use with Ozone.
@@ -254,7 +260,6 @@ Pathing from HDFS to Ozone may change due to these restrictions!!!!
 |Configuration|KMS path from core-site.xml: hadoop.security.key.provider.path|KMS path from core-site.xml: hadoop.security.key.provider.path|
 
 *For transparent encryption, we introduce a new abstraction to HDFS: the encryption zone. An encryption zone is a special directory whose contents will be transparently encrypted upon write and transparently decrypted upon read. Each encryption zone is associated with a single encryption zone key which is specified when the zone is created. Each file within an encryption zone has its own unique data encryption key (DEK). DEKs are never handled directly by HDFS. Instead, HDFS only ever handles an encrypted data encryption key (EDEK). Clients decrypt an EDEK, and then use the subsequent DEK to read and write data. HDFS datanodes simply see a stream of encrypted bytes.
-
 
 Upload a file to bucket1:
 ```console
