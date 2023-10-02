@@ -385,15 +385,69 @@ ozone sh bucket info o3://ozone/vol1/bucket1
 ```
 
 #### Quota operations
+Set a quota 
+
+Two types of quotas in Ozone:
+- Storage Space quota: define how much storage space a Volume or Bucket can use (expressed in bytes, Storage space level quotas allow the use of units such as KB (k), MB (m), GB (g), TB (t), PB (p), etc.). To note: If volume’s quota is enabled then bucket’s quota cannot be cleared.
+- Namespace quota: define how many namespace a Volume or Bucket can use
+  - When volume namespace quota is enabled, the total number of buckets under the volume, cannot exceed the volume namespace quota
+  - When bucket namespace quota is enabled, the total number of keys under the bucket, cannot exceed the bucket namespace quota.
+
+
 ```console
-# set a quota 
-## namespace-quota mean max number of buckets or keys
 ozone sh volume setquota --namespace-quota=2 --space-quota 100MB o3://ozone/vol1
-ozone sh bucket setquota --namespace-quota=10 --space-quota 100MB o3://ozone/vol1/bucket1 
-#remove a quota
-ozone sh volume clrquota --namespace-quota o3://ozone/vol1
-ozone sh bucket clrquota --space-quota o3://ozone/vol1/bucket1
+ozone sh bucket setquota --namespace-quota=10 --space-quota 100MB o3://ozone/vol1/bucket1
+ozone sh bucket info o3://ozone/vol1/bucket1
 ```
+Expected output: the namespace quota was set - namespace-quota mean max number of buckets or keys  
+`{
+  "metadata" : { },
+  "volumeName" : "vol1",
+  "name" : "bucket1",
+  "storageType" : "DISK",
+  "versioning" : false,
+  "usedBytes" : 0,
+  "usedNamespace" : 0,
+  "creationTime" : "2023-10-02T14:23:22.439Z",
+  "modificationTime" : "2023-10-02T15:46:44.629Z",
+  "quotaInBytes" : 104857600,
+  "quotaInNamespace" : 10,
+  "bucketLayout" : "FILE_SYSTEM_OPTIMIZED",
+  "replicationConfig" : {
+    "replicationFactor" : "ONE",
+    "requiredNodes" : 1,
+    "replicationType" : "RATIS"
+  },
+  "link" : false
+}`
+
+Remove a quota
+```console
+ozone sh volume clrquota --space-quota o3://ozone/vol1
+ozone sh bucket clrquota --space-quota o3://ozone/vol1/bucket1
+ozone sh bucket info o3://ozone/vol1/bucket1
+```
+`{
+  "metadata" : { },
+  "volumeName" : "vol1",
+  "name" : "bucket1",
+  "storageType" : "DISK",
+  "versioning" : false,
+  "usedBytes" : 0,
+  "usedNamespace" : 0,
+  "creationTime" : "2023-10-02T14:23:22.439Z",
+  "modificationTime" : "2023-10-02T15:45:15.715Z",
+  "quotaInBytes" : -1,
+  "quotaInNamespace" : 10,
+  "bucketLayout" : "FILE_SYSTEM_OPTIMIZED",
+  "replicationConfig" : {
+    "replicationFactor" : "ONE",
+    "requiredNodes" : 1,
+    "replicationType" : "RATIS"
+  },
+  "link" : false
+}
+`
 
 #### Symlinks
 
