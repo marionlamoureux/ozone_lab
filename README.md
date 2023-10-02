@@ -47,7 +47,7 @@ Ranger - Allow and deny conditions
 ![Ranger-AllowandDenyconditions.png](./images/Ranger-AllowandDenyconditions.png)
 
  
-*Structure of the Ranger permissions for Ozone* 
+**Structure of the Ranger permissions for Ozone** 
 
 ![Ozonepermissionpage.png](./images/Ozonepermissionpage.png)
 
@@ -62,7 +62,7 @@ Key = \*
 | Access |  All  |  Read/List file |
 |  Deny  | None |  Create Volume |
 
-Add users *Admin* and *Alice* to the existing "All" condition.
+Add users **Admin** and **Alice** to the existing "All" condition.
  
 Bob's accesses:
 - Click on the + button under the "Allow Conditions"![AddAllowCondition.png](./images/AddAllowCondition.png)
@@ -268,7 +268,7 @@ ozone fs -put /tmp/cloudera-scm-agent.log ofs://ozone/vol1/bucket1
 ozone fs -cat ofs://ozone/vol1/bucket1/cloudera-scm-agent.log
 ```
 
-*Note: the cloudera-scm-agent.log is available under /var/log/cloudera-scm-agent/. it can be copied over to the temp folder using root access. *
+*Note: the cloudera-scm-agent.log is available under /var/log/cloudera-scm-agent/. It can be copied over to the temp folder using root access (username: centos). *
 
 ##### Deletion
 When you delete a file in Ozone using ozone fs, the file is not immediately removed from Ozone. Instead files are moved to a hidden .Trash dir (prefix dot Trash) that is user accessible under /user/<username>/.Trash/Current deleted directory. The full directory path of each user's deleted files will appear under this .Trash dir.
