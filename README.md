@@ -155,10 +155,10 @@ Check Security Tokens and review the output. This is a check to verify that you 
 ozone sh token get
 ```
 
-Expected Output
+Expected Output 
 `Successfully get token for service 10.0.1.106:9862
 Kind: OzoneToken, Service: 10.0.1.106:9862, Ident: (OzoneToken owner=admin@WORKSHOP.COM, renewer=admin, realUser=, issueDate=2023-10-02T14:19:46.272Z, maxDate=2023-10-09T14:19:46.272Z, sequenceNumber=1, masterKeyId=1, strToSign=null, signature=null, awsAccessKeyId=null, omServiceId=ozone)
-Token persisted to /tmp/ozone.token successfully!`
+Token persisted to /tmp/ozone.token successfully!` 
 
 # Lab 2 Ozone protocol operations
 
