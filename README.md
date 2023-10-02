@@ -37,8 +37,9 @@ Select cm_ozone under the Ozone service.
 In the top policy listed as **all - volume, bucket and key**, click the pencil icon on the right that shows Edit when you hover over it.  
 ![EditpolicyforOzone.png](./images/EditpolicyforOzone.png)
 
-To understand the structure of the Ranger policy for Ozone, we can look at the layout for data in Ozone as well as the structure allow/deny conditions in all Ranger policies.
-Structure of the Ranger permissions for Ozone
+To understand the structure of the Ranger policy for Ozone, we can look at the layout for data in Ozone as well as the structure allow/deny conditions in all Ranger policies. 
+
+*Structure of the Ranger permissions for Ozone*
 
 Ozone Data Layout
 ![OzoneDataLayout.png](./images/OzoneDataLayout.png)
