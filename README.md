@@ -243,7 +243,18 @@ A key is a hybrid file name. It can be a file name stored at the root of the buc
 Keys can be used to mimic a traditional file system.  It is important to note that volumes and buckets have naming restrictions and certain characters and cases are not allowed. 
 Keys do not have this same limit. It is also important to note that you must have /volume/bucket for OFS.  
 Files must have 2 directories at a minimum (/tmp is the only exception to be a hadoop compatible filesystem.) 
-Some other notes is that EC and Encryption is at the bucket level.  Pathing from HDFS to Ozone may change due to these restrictions!!!!
+Some other notes is that EC and Encryption is at the bucket level.  
+Pathing from HDFS to Ozone may change due to these restrictions!!!!  
+|   | Ozone  |  HDFS |
+|----|-----|-----|
+|Unit of Encryption|Bucket|Directory or encryption zone|
+|Dedicated DEK*|Yes, per object|Yes, per file|
+|EDEK|Yes, part of metadata|Yes, part of extended file attributes|
+|Transparent to Client|Yes|Yes|
+|Configuration|KMS path from core-site.xml: hadoop.security.key.provider.path|KMS path from core-site.xml: hadoop.security.key.provider.path|
+
+*For transparent encryption, we introduce a new abstraction to HDFS: the encryption zone. An encryption zone is a special directory whose contents will be transparently encrypted upon write and transparently decrypted upon read. Each encryption zone is associated with a single encryption zone key which is specified when the zone is created. Each file within an encryption zone has its own unique data encryption key (DEK). DEKs are never handled directly by HDFS. Instead, HDFS only ever handles an encrypted data encryption key (EDEK). Clients decrypt an EDEK, and then use the subsequent DEK to read and write data. HDFS datanodes simply see a stream of encrypted bytes.
+
 
 Upload a file to bucket1:
 ```console
