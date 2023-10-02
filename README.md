@@ -131,10 +131,11 @@ echo "Test file" > testfile
 ozone sh bucket create /testperms/bucket1
 ozone sh key put --replication=ONE --replication-type=RATIS o3://ozone/testperms/bucket1/alice_key1 testfile
 ```
-List the buckets avaible in volume testperms
+List the buckets avaible in volume testperms and kinit back as user admin
 ```console
 ozone sh bucket list /testperms | jq -r '.[] | .name'
-```
+kinit admin
+``` 
 
 ## Reviewing Ozone Security Settings
 
