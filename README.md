@@ -281,6 +281,7 @@ ozone fs -rm -r -skipTrash ofs://ozone/vol1/bucket1/cloudera-scm-agent.log
 ```
 Expected output  
 `Deleted ofs://ozone/vol1/bucket1/testfile`
+`Deleted ofs://ozone/vol1/bucket1/cloudera-scm-agent.log`
 
 #### Ozone sh
 summary operations:
