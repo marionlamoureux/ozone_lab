@@ -9,3 +9,18 @@ you can use the 7.1.8 outside the paywall but you need a hotfix CHF 4 to deploy 
 prior to deployment please update the stack.sh file where cm_services and other options needs to be updated accordingly
 
 If you use the internal repo. please use the 7.1.8 paywall version which means you will need to use a cldr license key in order to deploy the runtime
+
+
+SSH as Centos (password: Supersecret1) and sudo to run the following commands:
+```console
+sudo cp /var/log/cloudera-scm-agent/cloudera-scm-agent.log /tmp/cloudera-scm-agent.log
+sudo yum install -y wget
+wget -qO - https://www.fueleconomy.gov/feg/epadata/vehicles.csv | hdfs dfs -copyFromLocal - /tmp/vehicles.csv
+curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
+sudo yum -y install unzip
+unzip awscliv2.zip 
+sudo ./aws/install
+export PATH=/usr/local/bin:$PATH
+export JAVA_HOME=/usr/lib/jvm/java-openjdk/
+sudo cp $JAVA_HOME/lib/security/cacerts $JAVA_HOME/lib/security/jssecacerts  
+```
