@@ -298,9 +298,10 @@ Detailed operations:
 Create a volume /vol2
 ```console
 ozone sh volume create o3://ozone/vol2  ### or ozone sh volume create /vol2
+ozone sh volume info /vol2
 ```
 Expected output  
-`ozone sh volume info /vol2  
+`  
 {  
   "metadata" : { },  
   "name" : "vol2",  
@@ -347,7 +348,7 @@ Delete volume, buckets and create another volume and bucket associated to this e
 ```console
 ozone sh volume delete o3://ozone/vol2
 ```
-Expected output is an error message as the volume contains a bucket
+Expected output is an error message as the volume contains a bucket: `VOLUME_NOT_EMPTY`
 
 ```console
 ozone sh bucket delete o3://ozone/vol2/bucket1
