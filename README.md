@@ -940,7 +940,7 @@ ozone s3 getsecret --om-service-id=ozone
 aws configure
 ```
 
-![[AWSconfiguration.png]]  
+![AWSconfiguration](./images/AWSconfiguration.png)
 
 Extract Certificates and export the CA certificate to PEM format
 
@@ -965,7 +965,7 @@ Replace the hostname of your node in the endpoint url and delete the bucket
 **S3 compatibility**  
 Not all s3 native api works with ozone.
 
-|s3api  <br>commands|compatible (Y / N)|Example|
+|s3api commands|compatible (Y / N)|Example|
 |---|---|---|
 |[copy-object](https://docs.aws.amazon.com/cli/latest/reference/s3api/copy-object.html)|Y|aws s3api --endpoint https://hostname:9879 copy-object --bucket s3abucket --key keyfile2 --copy-source s3bucket/file.txt --debug --ca-bundle s3gca.pem|
 |[create-bucket](https://docs.aws.amazon.com/cli/latest/reference/s3api/create-bucket.html)|Y|aws s3api --endpoint https://hostname:9879 create-bucket --bucket s3abucket --debug --ca-bundle s3gca.pem|
@@ -981,7 +981,7 @@ Not all s3 native api works with ozone.
 |[list-objects-v2](https://docs.aws.amazon.com/cli/latest/reference/s3api/list-objects-v2.html)|Y|aws s3api --endpoint https://hostname:9879 list-objects-v2 --bucket s3abucket --ca-bundle s3gca.pem|
 |[put-object](https://docs.aws.amazon.com/cli/latest/reference/s3api/put-object.html)|Y|aws s3api --endpoint https://hostname:9879 put-object --bucket s3abucket --body s3.properties --key keyfile --debug --ca-bundle s3gca.pem|
 
-**create a link between a s3v bucket and another
+**create a link between a s3v bucket and another bucket**
 
 S3 gateway allows access to bucket under /s3v volume. 
 To access an existing bucket not under /s3v volume you can create a symlink in the /s3v volume  
