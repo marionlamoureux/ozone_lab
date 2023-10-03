@@ -224,24 +224,24 @@ Expected output for listing Ozone items at parent level:
 
 Create a volume called vol1 and list the ozone file system to see volumes
 ```console
-ozone fs -mkdir ofs://ozone/vol_fs
+ozone fs -mkdir ofs://ozone/volfs
 ozone fs -ls ofs://ozone/
 ```
 
 Expected output after volume creation and list command:  
 `drwxrwxrwx   - om                       0 2023-09-11 18:29 ofs://ozone/s3v`  
-`drwxrwxrwx   - admin admins             0 2023-09-12 14:34 ofs://ozone/vol_fs`  
+`drwxrwxrwx   - admin admins             0 2023-09-12 14:34 ofs://ozone/volfs`  
 
 Create a bucket in vol1 called bucket1 and list all items under volume 1. Buckets are used to store files.
 ```console
-ozone fs -mkdir ofs://ozone/vol_fs/bucket_fs
-ozone fs -ls ofs://ozone/vol_fs
+ozone fs -mkdir ofs://ozone/volfs/bucketfs
+ozone fs -ls ofs://ozone/volfs
 ```
 
 Expected output  
-`23/09/12 16:36:37 INFO rpc.RpcClient: Creating Bucket: vol1/bucket1, with the Bucket Layout FILE_SYSTEM_OPTIMIZED,
+`23/09/12 16:36:37 INFO rpc.RpcClient: Creating Bucket: volfs/bucketfs, with the Bucket Layout FILE_SYSTEM_OPTIMIZED,
 admin as owner, Versioning false, Storage Type set to DISK and Encryption set to false`  
-`drwxrwxrwx   - admin admins          0 2023-09-12 16:36 ofs://ozone/vol_fs/bucket_fs`  
+`drwxrwxrwx   - admin admins          0 2023-09-12 16:36 ofs://ozone/volfs/bucketfs`  
 
 OFS mimics a traditional file system, the first two levels volume and bucket look like directories.
 However, you cannot use the top level volume to store keys (files). When you add a key (file), it stores the contents of the file uploaded to Ozone under that key name. 
@@ -264,24 +264,24 @@ Pathing from HDFS to Ozone may change due to these restrictions!!!!
 Upload a file to bucket_fs:
 ```console
 echo "Test file" > testfile
-ozone fs -put testfile ofs://ozone/vol_fs/bucket_fs
-ozone fs -ls ofs://ozone/vol_fs/bucket_fs
+ozone fs -put testfile ofs://ozone/volfs/bucketfs
+ozone fs -ls ofs://ozone/volfs/bucketfs
 ```
 
 Expected output for listing content of bucket1:  
-`-rw-rw-rw-   1 admin admin         10 2023-09-12 16:41 ofs://ozone/vol_fs/bucket_fs/testfile`  
+`-rw-rw-rw-   1 admin admin         10 2023-09-12 16:41 ofs://ozone/volfs/bucketfs/testfile`  
 
 ![Ozone-Anatomyofawrite](./images/Ozone-Anatomyofawrite.png)
 
 View content of the file:
 ```console
-ozone fs -cat ofs://ozone/vol_fs/bucket_fs/testfile
+ozone fs -cat ofs://ozone/volfs/bucketfs/testfile
 ```
 
 Let's try to upload another file to the bucket:  
 ```console
-ozone fs -put /tmp/cloudera-scm-agent.log ofs://ozone/vol_fs/bucket_fs
-ozone fs -cat ofs://ozone/vol_fs/bucket_fs/cloudera-scm-agent.log
+ozone fs -put /tmp/cloudera-scm-agent.log ofs://ozone/volfs/bucketfs
+ozone fs -cat ofs://ozone/volfs/bucketfs/cloudera-scm-agent.log
 ```
 
 *Note: the cloudera-scm-agent.log is available under /var/log/cloudera-scm-agent/. It can be copied over to the temp folder using root access (username: centos). *
@@ -292,25 +292,24 @@ When you delete a file in Ozone using ozone fs, the file is not immediately remo
 To bypass the trash to save disk space from keeping around files in the .Trash folder, set the -skipTrash flag to immediately delete the files bypassing the trash when you delete files.
 
 ```console
-ozone fs -rm -r -skipTrash ofs://ozone/vol_fs/bucket_fs/testfile
-ozone fs -rm -r -skipTrash ofs://ozone/vol_fs/bucket_fs/cloudera-scm-agent.log
+ozone fs -rm -r -skipTrash ofs://ozone/volfs/bucketfs/testfile
+ozone fs -rm -r -skipTrash ofs://ozone/volfs/bucketfs/cloudera-scm-agent.log
 ```
 Expected output  
-`Deleted ofs://ozone/vol_fs/bucket_fs/testfile`
-`Deleted ofs://ozone/vol_fs/bucket_fs/cloudera-scm-agent.log`
+`Deleted ofs://ozone/volfs/bucketfs/testfile`
+`Deleted ofs://ozone/volfs/bucketfs/cloudera-scm-agent.log`
 
 
 Clean up bucket and volume
 ```console
-ozone fs delete volume
-
+ozone sh bucket delete o3://ozone/volfs/bucketfs
+ozone sh volume delete o3://ozone/volfs
 ```
 
 #### Ozone sh
 summary operations:
 - create a volume
 - create a bucket
-- delete volume, buckets
 - list operations
 - get information from volume, bucket, key
 - quota operations
@@ -318,18 +317,18 @@ summary operations:
 Other operations will be done in further section such as EC, replications, bucket layout type
 
 Detailed operations:
-Create a volume /vol2
+Create a volume /volsh
 ```console
-ozone sh volume create o3://ozone/vol2  ### or ozone sh volume create /vol2
-ozone sh volume info /vol2
+ozone sh volume create o3://ozone/volsh  ### or ozone sh volume create /volsh
+ozone sh volume info /volsh
 ```
 Expected output  
 `  
 {  
   "metadata" : { },  
-  "name" : "vol2",  
-  "admin" : "centos",  
-  "owner" : "centos",  
+  "name" : "volsh",  
+  "admin" : "admin",  
+  "owner" : "admin",  
   "quotaInBytes" : -1,  
   "quotaInNamespace" : -1,  
   "usedNamespace" : 0,  
@@ -342,17 +341,17 @@ Expected output
      "aclList" : [ "ALL" ]  
   }`  
   
-Create a bucket bucket1 under /vol2
+Create a bucket bucketsh under /volsh
 ```console
-ozone sh bucket create /vol2/bucket1
-ozone sh bucket info /vol2/bucket1
+ozone sh bucket create /volsh/bucketsh
+ozone sh bucket info /volsh/bucketsh
 ```
 Expected output  
 `  
 {  
   "metadata" : { },  
-  "volumeName" : "vol2",  
-  "name" : "bucket1",   
+  "volumeName" : "volsh",  
+  "name" : "bucketsh",   
   "storageType" : "DISK",  
   "versioning" : false,  
   "usedBytes" : 0,  
@@ -362,21 +361,9 @@ Expected output
   "quotaInBytes" : -1,  
   "quotaInNamespace" : -1,  
   "bucketLayout" : "LEGACY",  
-  "owner" : "centos",  
+  "owner" : "admin",  
   "link" : false  
 }`  
-
-Delete volume, buckets and create another volume and bucket associated to this exercise
-
-```console
-ozone sh volume delete o3://ozone/vol2
-```
-Expected output is an error message as the volume contains a bucket: `VOLUME_NOT_EMPTY`
-
-```console
-ozone sh bucket delete o3://ozone/vol2/bucket1
-ozone sh volume delete o3://ozone/vol2
-```
 
 List operations
 ```console
@@ -387,13 +374,13 @@ ozone sh volume list --all o3://ozone
 A variant which provides all the volumes for a dedicated user
 ```console
 ozone sh volume list --all o3://ozone | grep -A3 'metadata' | grep 'name\|owner\|admin'
-ozone sh bucket list o3://ozone/vol1
+ozone sh bucket list o3://ozone/volsh
 ```
 
 get information from volume, bucket, key
 ```console
-ozone sh volume info o3://ozone/vol1
-ozone sh bucket info o3://ozone/vol1/bucket1
+ozone sh volume info o3://ozone/volsh
+ozone sh bucket info o3://ozone/volsh/bucketsh
 ```
 
 #### Quota operations
@@ -407,15 +394,15 @@ Two types of quotas in Ozone:
 
 
 ```console
-ozone sh volume setquota --namespace-quota=2 --space-quota 100MB o3://ozone/vol1
-ozone sh bucket setquota --namespace-quota=10 --space-quota 100MB o3://ozone/vol1/bucket1
-ozone sh bucket info o3://ozone/vol1/bucket1
+ozone sh volume setquota --namespace-quota=2 --space-quota 100MB o3://ozone/volsh
+ozone sh bucket setquota --namespace-quota=10 --space-quota 100MB o3://ozone/volsh/bucketsh
+ozone sh bucket info o3://ozone/volsh/bucketsh
 ```
 Expected output: the namespace quota was set - namespace-quota mean max number of buckets or keys  
 `{
   "metadata" : { },
-  "volumeName" : "vol1",
-  "name" : "bucket1",
+  "volumeName" : "volsh",
+  "name" : "bucketsh",
   "storageType" : "DISK",
   "versioning" : false,
   "usedBytes" : 0,
@@ -435,14 +422,14 @@ Expected output: the namespace quota was set - namespace-quota mean max number o
 
 Remove a quota
 ```console
-ozone sh volume clrquota --space-quota o3://ozone/vol1
-ozone sh bucket clrquota --space-quota o3://ozone/vol1/bucket1
-ozone sh bucket info o3://ozone/vol1/bucket1
+ozone sh volume clrquota --space-quota o3://ozone/volsh
+ozone sh bucket clrquota --space-quota o3://ozone/volsh/bucketsh
+ozone sh bucket info o3://ozone/volsh/bucketsh
 ```
 `{
   "metadata" : { },
-  "volumeName" : "vol1",
-  "name" : "bucket1",
+  "volumeName" : "volsh",
+  "name" : "bucketsh",
   "storageType" : "DISK",
   "versioning" : false,
   "usedBytes" : 0,
@@ -464,8 +451,9 @@ ozone sh bucket info o3://ozone/vol1/bucket1
 #### Symlinks
 
 Symlinks are relevant when s3 operation required. You do not create a bucket within the volume srv but you symlink a bucket in it
+
 ```console
-ozone sh bucket link o3://ozone/vol1/bucket1 o3://ozone/vol1/bucket3
+ozone sh bucket link o3://ozone/volsh/bucketsh o3://ozone/volsh/bucketsymlink
 ```
 
 Ozone bucket Erasure coding  ⇒ **won't fully work on a 1 node cluster**
@@ -476,13 +464,13 @@ For cold and warm data with low I/O requirement EC storage is available. 50% rep
 #### Create Erasure Coded(EC) buckets/keys
 
 ```console
-ozone sh bucket create /vol1/ec5-bucket1 -t EC -r rs-3-2-1024k
-ozone sh bucket info  /vol1/ec5-bucket1
+ozone sh bucket create /volsh/ec5-bucket1 -t EC -r rs-3-2-1024k
+ozone sh bucket info  /volsh/ec5-bucket1
 ```
 Expected output  
 `{  
   "metadata" : { },  
-  "volumeName" : "vol1",  
+  "volumeName" : "volsh",  
   "name" : "ec5-bucket1",  
   "storageType" : "DISK",  
   "versioning" : false,  
@@ -506,12 +494,12 @@ Expected output
 }`  
 
 ```console
-ozone sh bucket create /vol1/ec9-bucket1 -t EC -r rs-6-3-1024k
-ozone sh bucket info  /vol1/ec9-bucket1
+ozone sh bucket create /volsh/ec9-bucket1 -t EC -r rs-6-3-1024k
+ozone sh bucket info  /volsh/ec9-bucket1
 ```
 `{  
   "metadata" : { },  
-  "volumeName" : "vol1",  
+  "volumeName" : "volsh",  
   "name" : "ec9-bucket1",  
   "storageType" : "DISK",  
   "versioning" : false,  
@@ -536,14 +524,14 @@ ozone sh bucket info  /vol1/ec9-bucket1
 
 For reference:  you can update replication config for existing buckets:
 ```console
-ozone sh bucket create /vol1/bucket1
-ozone sh bucket set-replication-config /vol1/bucket1 -t EC -r rs-3-2-1024k 
-ozone sh bucket info /vol1/bucket1
+ozone sh bucket create /volsh/bucketrep
+ozone sh bucket set-replication-config /volsh/bucketrep -t EC -r rs-3-2-1024k 
+ozone sh bucket info /volsh/bucketrep
 ```
 `{  
   "metadata" : { },  
-  "volumeName" : "vol1",  
-  "name" : "bucket1",  
+  "volumeName" : "volsh",  
+  "name" : "bucketrep",  
   "storageType" : "DISK",  
   "versioning" : false,  
   "usedBytes" : 0,  
