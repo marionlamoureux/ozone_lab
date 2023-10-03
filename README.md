@@ -962,7 +962,7 @@ ozone sh bucket list o3://ozone/s3v/
 Replace the hostname of your node in the endpoint url and delete the bucket  
 `aws s3api --endpoint https://hostname:9879 --ca-bundle "/tmp/s3gca.pem" delete-bucket --bucket=wordcount`
 
-**S3 compatibility**
+**S3 compatibility**  
 Not all s3 native api works with ozone.
 
 |s3api  <br>commands|compatible (Y / N)|Example|
@@ -979,6 +979,18 @@ Not all s3 native api works with ozone.
 |[list-object-versions](https://docs.aws.amazon.com/cli/latest/reference/s3api/list-object-versions.html)|y|aws s3api --endpoint https://hostname:9879 list-object-versions --key keyfile --bucket s3abucket --ca-bundle s3gca.pem|
 |[list-objects](https://docs.aws.amazon.com/cli/latest/reference/s3api/list-objects.html)|Y|aws s3api --endpoint https://hostname:9879 list-objects --bucket s3abucket --ca-bundle s3gca.pem|
 |[list-objects-v2](https://docs.aws.amazon.com/cli/latest/reference/s3api/list-objects-v2.html)|Y|aws s3api --endpoint https://hostname:9879 list-objects-v2 --bucket s3abucket --ca-bundle s3gca.pem|
-|[put-object](https://docs.aws.amazon.com/cli/latest/reference/s3api/put-object.html)|Y|aws s3api --endpoint https://hostname>9879 put-object --bucket s3abucket --body s3.properties --key keyfile --debug --ca-bundle s3gca.pem|
+|[put-object](https://docs.aws.amazon.com/cli/latest/reference/s3api/put-object.html)|Y|aws s3api --endpoint https://hostname:9879 put-object --bucket s3abucket --body s3.properties --key keyfile --debug --ca-bundle s3gca.pem|
+
+**create a link between a s3v bucket and another
+
+S3 gateway allows access to bucket under /s3v volume. 
+To access an existing bucket not under /s3v volume you can create a symlink in the /s3v volume  
+
+```console
+ozone sh bucket link /volsh/obs-bucket /s3v/obs-bucket-link  
+ozone sh bucket info /s3v/obs-bucket-link
+```
+Note: If you are accessing previously created LEGACY buckets via S3 you need to disable ozone.om.enable.filesystem.paths(default is True). This configuration allows LEGACY buckets to be compatible with Hadoop FileSystem semantics when enabled. When this config is disabled, LEGACY buckets are compatible with S3 semantics.
+
 
 
