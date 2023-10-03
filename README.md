@@ -673,28 +673,27 @@ hadoop distcp -m 2 -skipcrccheck hdfs:///tmp/vehicles.csv ofs://ozone/hive/wareh
 
 Expected output: a map reduce job is kicked off:  
 `Job Counters`  
-`               Launched map tasks=1`  
-`                Other local map tasks=1`  
-`                Total time spent by all maps in occupied slots (ms)=4843`  
-`                Total time spent by all reduces in occupied slots (ms)=0`  
-`                Total time spent by all map tasks (ms)=4843`  
-`                Total vcore-milliseconds taken by all map tasks=4843`  
-`                Total megabyte-milliseconds taken by all map tasks=4959232`  
-`        Map-Reduce Framework`  
-`                Map input records=1`  
-`                Map output records=0`  
-`                Input split bytes=116`  
-`                Spilled Records=0`  
-`                Failed Shuffles=0`  
-`                Merged Map outputs=0`  
-`                GC time elapsed (ms)=34`  
-`                CPU time spent (ms)=6360`  
-`                Physical memory (bytes) snapshot=439640064`  
-`                Virtual memory (bytes) snapshot=3077058560`  
-`                Total committed heap usage (bytes)=859832320`  
-`                Peak Map Physical memory (bytes)=443551744`  
-`                Peak Map Virtual memory (bytes)=3081662464`  
-
+               `Launched map tasks=1`  
+               `Other local map tasks=1`  
+               `Total time spent by all maps in occupied slots (ms)=4843`  
+               `Total time spent by all reduces in occupied slots (ms)=0`  
+               `Total time spent by all map tasks (ms)=4843`  
+               `Total vcore-milliseconds taken by all map tasks=4843`  
+               `Total megabyte-milliseconds taken by all map tasks=4959232`  
+        `Map-Reduce Framework`  
+                `Map input records=1`  
+                `Map output records=0`  
+                `Input split bytes=116`  
+                `Spilled Records=0`  
+                `Failed Shuffles=0`  
+                `Merged Map outputs=0`  
+                `GC time elapsed (ms)=34`  
+                `CPU time spent (ms)=6360`  
+                `Physical memory (bytes) snapshot=439640064`  
+                `Virtual memory (bytes) snapshot=3077058560`  
+                `Total committed heap usage (bytes)=859832320`  
+                `Peak Map Physical memory (bytes)=443551744`  
+                `Peak Map Virtual memory (bytes)=3081662464`  
 
 Another variant: authentication -- Establishes mutual authentication between the client and the server.
 
@@ -893,3 +892,96 @@ and run
 ```beeline
 CREATE DATABASE testofs LOCATION 'ofs://ozone/user/alice-db/testofs-ext' MANAGEDLOCATION 'ofs://ozone/user/alice-db/testofs-managed' ;
 ```
+
+# Lab 6 - Ozone S3 gateway
+**Summary steps**  :  
+- download and install the aws s3 cli
+- get the om-service-id
+- get an ozone secret key for userX
+- configure aws s3 cli to work with ozone
+- CA operations:
+- ozone certificate find which alias 
+- certificate.jks ozone export alias to s3g-ca.crt
+- transform .crt to .pem
+- ozone symlink a bucket from your volume to ozone s3v standard volume
+- s3a: which api is compatible with ozone
+
+**Detailed operations**
+Configuring Ozone S3 Credentials for AWS CLI:
+The AWS CLI is a popular tool for working with S3 in AWS: [https://aws.amazon.com/cli/](https://aws.amazon.com/cli/) 
+
+It can be used to access Ozone from the command line with some security configuration settings.
+[https://docs.cloudera.com/cdp-private-cloud-base/7.1.8/ozone-storing-data/topics/ozone-config-https-endpoint.html](https://docs.cloudera.com/cdp-private-cloud-base/7.1.8/ozone-storing-data/topics/ozone-config-https-endpoint.html) 
+
+For users or client applications to use Ozone via S3 APIs for accessing Ozone buckets, you need three things: 
+
+1. Ozone AWS access key ID 
+2. AWS secret key. 
+3. Ca certs pem file.
+
+In the exercise, you are going to add the access key ID and secret key to the AWS config file to access Ozone, so that a particular user or client application can get automatic access to the Ozone buckets.
+
+The user or the client application accessing Ozone must be authenticated against your cluster's KDC.
+
+aws cli should be already installed on your machine, if it's missing, su to root (centos) and run the below:  
+
+```console
+curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
+sudo yum -y install unzip
+unzip awscliv2.zip 
+sudo ./aws/install
+export PATH=/usr/local/bin:$PATH
+```
+Run the beelow
+get the om-service-id: 
+```console
+ozone getconf confKey ozone.service.id 
+ozone s3 getsecret --om-service-id=ozone
+aws configure
+```
+
+![[AWSconfiguration.png]]  
+
+Extract Certificates and export the CA certificate to PEM format
+
+```console
+/usr/lib/jvm/java-11-openjdk/bin/keytool -list -v -keystore /opt/cloudera/security/jks/truststore.jks -storepass Supersecret1
+/usr/lib/jvm/java-11-openjdk/bin/keytool -export -alias ca-cert.pem -file ~/s3g-ca.crt -keystore /opt/cloudera/security/jks/truststore.jks -storepass Supersecret1
+openssl x509 -inform DER -outform PEM -in ~/s3g-ca.crt -out /tmp/s3gca.pem
+```
+You can now create a bucket using the aws s3api command
+
+**s3 api test create and delete bucket**
+Replace the hostname of your node in the endpoint url (to find the hostname, type `hostname` in the console.  
+`aws s3api --endpoint https://<hostname>:9879 --ca-bundle "/tmp/s3gca.pem" create-bucket --bucket=wordcount`
+
+Confirm bucket was created under the default volume s3v:  
+```console
+ozone sh bucket list o3://ozone/s3v/
+```
+Replace the hostname of your node in the endpoint url and delete the bucket  
+`aws s3api --endpoint https://<hostname>:9879 --ca-bundle "/tmp/s3gca.pem" delete-bucket --bucket=wordcount`
+
+**S3 compatibility**
+Not all s3 native api works with ozone.
+
+S3 compatibility ?
+
+|   |   |   |
+|---|---|---|
+|s3api  <br>commands|compatible (Y / N)|Example|
+|[copy-object](https://docs.aws.amazon.com/cli/latest/reference/s3api/copy-object.html)|Y|aws s3api --endpoint https://<hostname>:9879 copy-object --bucket s3abucket --key keyfile2 --copy-source s3bucket/file.txt --debug --ca-bundle s3gca.pem|
+|[create-bucket](https://docs.aws.amazon.com/cli/latest/reference/s3api/create-bucket.html)|Y|aws s3api --endpoint https://<hostname>:9879 create-bucket --bucket s3abucket --debug --ca-bundle s3gca.pem|
+|[delete-bucket](https://docs.aws.amazon.com/cli/latest/reference/s3api/delete-bucket.html)|Y|aws s3api --endpoint https://<hostname>:9879 delete-bucket --bucket s3abucket --ca-bundle s3gca.pem|
+|[delete-object](https://docs.aws.amazon.com/cli/latest/reference/s3api/delete-object.html)|Y|aws s3api --endpoint https://<hostname>:9879 delete-object --bucket s3abucket --key keyfile --debug --ca-bundle s3gca.pem|
+|[delete-objects](https://docs.aws.amazon.com/cli/latest/reference/s3api/delete-objects.html)|Y|aws s3api --endpoint https://<hostname>:9879 delete-objects --bucket s3abucket --delete 'Objects=[{Key=keyfile},{Key=keyfile2}]' --ca-bundle s3gca.pem|
+|[get-object](https://docs.aws.amazon.com/cli/latest/reference/s3api/get-object.html)|y|aws s3api --endpoint https://<hostname>:9879 get-object --bucket s3abucket --key keyfile2 ~/mycopys3file --ca-bundle s3gca.pem|
+|[head-bucket](https://docs.aws.amazon.com/cli/latest/reference/s3api/head-bucket.html)|Y|aws s3api --endpoint https://<hostname>:9879 head-bucket --bucket s3abucket --ca-bundle s3gca.pem|
+|[head-object](https://docs.aws.amazon.com/cli/latest/reference/s3api/head-object.html)|Y|aws s3api --endpoint https://<hostname>:9879 head-object --key keyfile --bucket s3abucket --ca-bundle s3gca.pem|
+|[list-buckets](https://docs.aws.amazon.com/cli/latest/reference/s3api/list-buckets.html)|Y|aws s3api --endpoint https://<hostname>:9879 list-buckets --ca-bundle s3gca.pem|
+|[list-object-versions](https://docs.aws.amazon.com/cli/latest/reference/s3api/list-object-versions.html)|y|aws s3api --endpoint https://<hostname>:9879 list-object-versions --key keyfile --bucket s3abucket --ca-bundle s3gca.pem|
+|[list-objects](https://docs.aws.amazon.com/cli/latest/reference/s3api/list-objects.html)|Y|aws s3api --endpoint https://<hostname>:9879 list-objects --bucket s3abucket --ca-bundle s3gca.pem|
+|[list-objects-v2](https://docs.aws.amazon.com/cli/latest/reference/s3api/list-objects-v2.html)|Y|aws s3api --endpoint https://<hostname>:9879 list-objects-v2 --bucket s3abucket --ca-bundle s3gca.pem|
+|[put-object](https://docs.aws.amazon.com/cli/latest/reference/s3api/put-object.html)|Y|aws s3api --endpoint https://<hostname>:9879 put-object --bucket s3abucket --body s3.properties --key keyfile --debug --ca-bundle s3gca.pem|
+
+
