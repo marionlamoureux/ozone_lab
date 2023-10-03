@@ -953,14 +953,14 @@ You can now create a bucket using the aws s3api command
 
 **s3 api test create and delete bucket**
 Replace the hostname of your node in the endpoint url (to find the hostname, type `hostname` in the console.  
-`aws s3api --endpoint https://<hostname>:9879 --ca-bundle "/tmp/s3gca.pem" create-bucket --bucket=wordcount`
+`aws s3api --endpoint https://hostname:9879 --ca-bundle "/tmp/s3gca.pem" create-bucket --bucket=wordcount`
 
 Confirm bucket was created under the default volume s3v:  
 ```console
 ozone sh bucket list o3://ozone/s3v/
 ```
 Replace the hostname of your node in the endpoint url and delete the bucket  
-`aws s3api --endpoint https://<hostname>:9879 --ca-bundle "/tmp/s3gca.pem" delete-bucket --bucket=wordcount`
+`aws s3api --endpoint https://hostname:9879 --ca-bundle "/tmp/s3gca.pem" delete-bucket --bucket=wordcount`
 
 **S3 compatibility**
 Not all s3 native api works with ozone.
@@ -970,18 +970,18 @@ S3 compatibility ?
 |   |   |   |
 |---|---|---|
 |s3api  <br>commands|compatible (Y / N)|Example|
-|[copy-object](https://docs.aws.amazon.com/cli/latest/reference/s3api/copy-object.html)|Y|aws s3api --endpoint https://<hostname>:9879 copy-object --bucket s3abucket --key keyfile2 --copy-source s3bucket/file.txt --debug --ca-bundle s3gca.pem|
-|[create-bucket](https://docs.aws.amazon.com/cli/latest/reference/s3api/create-bucket.html)|Y|aws s3api --endpoint https://<hostname>:9879 create-bucket --bucket s3abucket --debug --ca-bundle s3gca.pem|
-|[delete-bucket](https://docs.aws.amazon.com/cli/latest/reference/s3api/delete-bucket.html)|Y|aws s3api --endpoint https://<hostname>:9879 delete-bucket --bucket s3abucket --ca-bundle s3gca.pem|
-|[delete-object](https://docs.aws.amazon.com/cli/latest/reference/s3api/delete-object.html)|Y|aws s3api --endpoint https://<hostname>:9879 delete-object --bucket s3abucket --key keyfile --debug --ca-bundle s3gca.pem|
-|[delete-objects](https://docs.aws.amazon.com/cli/latest/reference/s3api/delete-objects.html)|Y|aws s3api --endpoint https://<hostname>:9879 delete-objects --bucket s3abucket --delete 'Objects=[{Key=keyfile},{Key=keyfile2}]' --ca-bundle s3gca.pem|
-|[get-object](https://docs.aws.amazon.com/cli/latest/reference/s3api/get-object.html)|y|aws s3api --endpoint https://<hostname>:9879 get-object --bucket s3abucket --key keyfile2 ~/mycopys3file --ca-bundle s3gca.pem|
-|[head-bucket](https://docs.aws.amazon.com/cli/latest/reference/s3api/head-bucket.html)|Y|aws s3api --endpoint https://<hostname>:9879 head-bucket --bucket s3abucket --ca-bundle s3gca.pem|
-|[head-object](https://docs.aws.amazon.com/cli/latest/reference/s3api/head-object.html)|Y|aws s3api --endpoint https://<hostname>:9879 head-object --key keyfile --bucket s3abucket --ca-bundle s3gca.pem|
-|[list-buckets](https://docs.aws.amazon.com/cli/latest/reference/s3api/list-buckets.html)|Y|aws s3api --endpoint https://<hostname>:9879 list-buckets --ca-bundle s3gca.pem|
-|[list-object-versions](https://docs.aws.amazon.com/cli/latest/reference/s3api/list-object-versions.html)|y|aws s3api --endpoint https://<hostname>:9879 list-object-versions --key keyfile --bucket s3abucket --ca-bundle s3gca.pem|
-|[list-objects](https://docs.aws.amazon.com/cli/latest/reference/s3api/list-objects.html)|Y|aws s3api --endpoint https://<hostname>:9879 list-objects --bucket s3abucket --ca-bundle s3gca.pem|
-|[list-objects-v2](https://docs.aws.amazon.com/cli/latest/reference/s3api/list-objects-v2.html)|Y|aws s3api --endpoint https://<hostname>:9879 list-objects-v2 --bucket s3abucket --ca-bundle s3gca.pem|
-|[put-object](https://docs.aws.amazon.com/cli/latest/reference/s3api/put-object.html)|Y|aws s3api --endpoint https://<hostname>:9879 put-object --bucket s3abucket --body s3.properties --key keyfile --debug --ca-bundle s3gca.pem|
+|[copy-object](https://docs.aws.amazon.com/cli/latest/reference/s3api/copy-object.html)|Y|aws s3api --endpoint https://hostname:9879 copy-object --bucket s3abucket --key keyfile2 --copy-source s3bucket/file.txt --debug --ca-bundle s3gca.pem|
+|[create-bucket](https://docs.aws.amazon.com/cli/latest/reference/s3api/create-bucket.html)|Y|aws s3api --endpoint https://hostname:9879 create-bucket --bucket s3abucket --debug --ca-bundle s3gca.pem|
+|[delete-bucket](https://docs.aws.amazon.com/cli/latest/reference/s3api/delete-bucket.html)|Y|aws s3api --endpoint https://hostname:9879 delete-bucket --bucket s3abucket --ca-bundle s3gca.pem|
+|[delete-object](https://docs.aws.amazon.com/cli/latest/reference/s3api/delete-object.html)|Y|aws s3api --endpoint https://hostname:9879 delete-object --bucket s3abucket --key keyfile --debug --ca-bundle s3gca.pem|
+|[delete-objects](https://docs.aws.amazon.com/cli/latest/reference/s3api/delete-objects.html)|Y|aws s3api --endpoint https://hostname:9879 delete-objects --bucket s3abucket --delete 'Objects=[{Key=keyfile},{Key=keyfile2}]' --ca-bundle s3gca.pem|
+|[get-object](https://docs.aws.amazon.com/cli/latest/reference/s3api/get-object.html)|y|aws s3api --endpoint https://hostname:9879 get-object --bucket s3abucket --key keyfile2 ~/mycopys3file --ca-bundle s3gca.pem|
+|[head-bucket](https://docs.aws.amazon.com/cli/latest/reference/s3api/head-bucket.html)|Y|aws s3api --endpoint https://hostname:9879 head-bucket --bucket s3abucket --ca-bundle s3gca.pem|
+|[head-object](https://docs.aws.amazon.com/cli/latest/reference/s3api/head-object.html)|Y|aws s3api --endpoint https://hostname:9879 head-object --key keyfile --bucket s3abucket --ca-bundle s3gca.pem|
+|[list-buckets](https://docs.aws.amazon.com/cli/latest/reference/s3api/list-buckets.html)|Y|aws s3api --endpoint https://hostname:9879 list-buckets --ca-bundle s3gca.pem|
+|[list-object-versions](https://docs.aws.amazon.com/cli/latest/reference/s3api/list-object-versions.html)|y|aws s3api --endpoint https://hostname:9879 list-object-versions --key keyfile --bucket s3abucket --ca-bundle s3gca.pem|
+|[list-objects](https://docs.aws.amazon.com/cli/latest/reference/s3api/list-objects.html)|Y|aws s3api --endpoint https://hostname:9879 list-objects --bucket s3abucket --ca-bundle s3gca.pem|
+|[list-objects-v2](https://docs.aws.amazon.com/cli/latest/reference/s3api/list-objects-v2.html)|Y|aws s3api --endpoint https://hostname:9879 list-objects-v2 --bucket s3abucket --ca-bundle s3gca.pem|
+|[put-object](https://docs.aws.amazon.com/cli/latest/reference/s3api/put-object.html)|Y|aws s3api --endpoint https://hostname>9879 put-object --bucket s3abucket --body s3.properties --key keyfile --debug --ca-bundle s3gca.pem|
 
 
