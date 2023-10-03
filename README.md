@@ -224,24 +224,24 @@ Expected output for listing Ozone items at parent level:
 
 Create a volume called vol1 and list the ozone file system to see volumes
 ```console
-ozone fs -mkdir ofs://ozone/vol1
+ozone fs -mkdir ofs://ozone/vol_fs
 ozone fs -ls ofs://ozone/
 ```
 
 Expected output after volume creation and list command:  
 `drwxrwxrwx   - om                       0 2023-09-11 18:29 ofs://ozone/s3v`  
-`drwxrwxrwx   - admin admins             0 2023-09-12 14:34 ofs://ozone/vol1`  
+`drwxrwxrwx   - admin admins             0 2023-09-12 14:34 ofs://ozone/vol_fs`  
 
 Create a bucket in vol1 called bucket1 and list all items under volume 1. Buckets are used to store files.
 ```console
-ozone fs -mkdir ofs://ozone/vol1/bucket1
-ozone fs -ls ofs://ozone/vol1
+ozone fs -mkdir ofs://ozone/vol_fs/bucket_fs
+ozone fs -ls ofs://ozone/vol_fs
 ```
 
 Expected output  
 `23/09/12 16:36:37 INFO rpc.RpcClient: Creating Bucket: vol1/bucket1, with the Bucket Layout FILE_SYSTEM_OPTIMIZED,
 admin as owner, Versioning false, Storage Type set to DISK and Encryption set to false`  
-`drwxrwxrwx   - admin admins          0 2023-09-12 16:36 ofs://ozone/vol1/bucket1`  
+`drwxrwxrwx   - admin admins          0 2023-09-12 16:36 ofs://ozone/vol_fs/bucket_fs`  
 
 OFS mimics a traditional file system, the first two levels volume and bucket look like directories.
 However, you cannot use the top level volume to store keys (files). When you add a key (file), it stores the contents of the file uploaded to Ozone under that key name. 
@@ -261,27 +261,27 @@ Pathing from HDFS to Ozone may change due to these restrictions!!!!
 
 *For transparent encryption, we introduce a new abstraction to HDFS: the encryption zone. An encryption zone is a special directory whose contents will be transparently encrypted upon write and transparently decrypted upon read. Each encryption zone is associated with a single encryption zone key which is specified when the zone is created. Each file within an encryption zone has its own unique data encryption key (DEK). DEKs are never handled directly by HDFS. Instead, HDFS only ever handles an encrypted data encryption key (EDEK). Clients decrypt an EDEK, and then use the subsequent DEK to read and write data. HDFS datanodes simply see a stream of encrypted bytes.
 
-Upload a file to bucket1:
+Upload a file to bucket_fs:
 ```console
 echo "Test file" > testfile
-ozone fs -put testfile ofs://ozone/vol1/bucket1
-ozone fs -ls ofs://ozone/vol1/bucket1
+ozone fs -put testfile ofs://ozone/vol_fs/bucket_fs
+ozone fs -ls ofs://ozone/vol_fs/bucket_fs
 ```
 
 Expected output for listing content of bucket1:  
-`-rw-rw-rw-   1 admin admin         10 2023-09-12 16:41 ofs://ozone/vol1/bucket1/testfile`  
+`-rw-rw-rw-   1 admin admin         10 2023-09-12 16:41 ofs://ozone/vol_fs/bucket_fs/testfile`  
 
 ![Ozone-Anatomyofawrite](./images/Ozone-Anatomyofawrite.png)
 
 View content of the file:
 ```console
-ozone fs -cat ofs://ozone/vol1/bucket1/testfile
+ozone fs -cat ofs://ozone/vol_fs/bucket_fs/testfile
 ```
 
 Let's try to upload another file to the bucket:  
 ```console
-ozone fs -put /tmp/cloudera-scm-agent.log ofs://ozone/vol1/bucket1
-ozone fs -cat ofs://ozone/vol1/bucket1/cloudera-scm-agent.log
+ozone fs -put /tmp/cloudera-scm-agent.log ofs://ozone/vol_fs/bucket_fs
+ozone fs -cat ofs://ozone/vol_fs/bucket_fs/cloudera-scm-agent.log
 ```
 
 *Note: the cloudera-scm-agent.log is available under /var/log/cloudera-scm-agent/. It can be copied over to the temp folder using root access (username: centos). *
@@ -292,12 +292,19 @@ When you delete a file in Ozone using ozone fs, the file is not immediately remo
 To bypass the trash to save disk space from keeping around files in the .Trash folder, set the -skipTrash flag to immediately delete the files bypassing the trash when you delete files.
 
 ```console
-ozone fs -rm -r -skipTrash ofs://ozone/vol1/bucket1/testfile
-ozone fs -rm -r -skipTrash ofs://ozone/vol1/bucket1/cloudera-scm-agent.log
+ozone fs -rm -r -skipTrash ofs://ozone/vol_fs/bucket_fs/testfile
+ozone fs -rm -r -skipTrash ofs://ozone/vol_fs/bucket_fs/cloudera-scm-agent.log
 ```
 Expected output  
-`Deleted ofs://ozone/vol1/bucket1/testfile`
-`Deleted ofs://ozone/vol1/bucket1/cloudera-scm-agent.log`
+`Deleted ofs://ozone/vol_fs/bucket_fs/testfile`
+`Deleted ofs://ozone/vol_fs/bucket_fs/cloudera-scm-agent.log`
+
+
+Clean up bucket and volume
+```console
+ozone fs delete volume
+
+```
 
 #### Ozone sh
 summary operations:
