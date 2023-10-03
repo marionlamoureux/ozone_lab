@@ -365,7 +365,7 @@ Expected output
   "link" : false  
 }`  
 
-List operations
+List all the volumes owned by the specified user
 ```console
 ozone sh volume list --user=admin
 ozone sh volume list --all o3://ozone
@@ -374,7 +374,6 @@ ozone sh volume list --all o3://ozone
 A variant which provides all the volumes for a dedicated user
 ```console
 ozone sh volume list --all o3://ozone | grep -A3 'metadata' | grep 'name\|owner\|admin'
-ozone sh bucket list o3://ozone/volsh
 ```
 
 get information from volume, bucket, key
@@ -422,8 +421,8 @@ Expected output: the namespace quota was set - namespace-quota mean max number o
 
 Remove a quota
 ```console
-ozone sh volume clrquota --space-quota o3://ozone/volsh
-ozone sh bucket clrquota --space-quota o3://ozone/volsh/bucketsh
+ozone sh volume clrquota --namespace-quota o3://ozone/volsh
+ozone sh bucket clrquota --namespace-quota o3://ozone/volsh/bucketsh
 ozone sh bucket info o3://ozone/volsh/bucketsh
 ```
 `{
@@ -450,7 +449,8 @@ ozone sh bucket info o3://ozone/volsh/bucketsh
 
 #### Symlinks
 
-Symlinks are relevant when s3 operation required. You do not create a bucket within the volume srv but you symlink a bucket in it
+Symlinks are relevant when s3 operation required. You do not create a bucket within the volume srv but you symlink a bucket in it: by default, all the buckets of the /s3v volume can be accessed with S3 interface but only the (Ozone) buckets of the /s3v volumes are exposed.
+To make any other buckets available with the S3 interface a “symbolic linked” bucket can be created between 2 buckets like so:  
 
 ```console
 ozone sh bucket link o3://ozone/volsh/bucketsh o3://ozone/volsh/bucketsymlink
@@ -459,7 +459,7 @@ ozone sh bucket link o3://ozone/volsh/bucketsh o3://ozone/volsh/bucketsymlink
 Ozone bucket Erasure coding  ⇒ **won't fully work on a 1 node cluster**
 Ozone supports RATIS and Erasure Coding Replication types. 
 Default replication type is RATIS and the replication factor is 3. Copies of container replicas are maintained across the cluster. RATIS 3 replication has 200% storage overhead.
-For cold and warm data with low I/O requirement EC storage is available. 50% replication overhead.
+For cold and warm data with low I/O requirement EC storage is available. 50% replication overhead. 
 
 #### Create Erasure Coded(EC) buckets/keys
 
