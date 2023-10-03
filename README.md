@@ -571,6 +571,8 @@ Ozone supports multiple bucket layouts
   - Provides support for existing buckets created in older versions.
   - Default behavior is compatible with the Hadoop File system. 
 
+Here is a quick overview of how Ozone manages its metadata namespace and handles client requests from different workloads based on the bucket type. Also, the bucket type concept is architecturally designed in an extensible fashion to support multi-protocols like NFS, CSI, and more in the future.  
+
 ![Ozone-NamespaceManager](./images/Ozone-NamespaceManager.png)  
 Within volsh already created, create a bucket with the FSO layout and display the information about the bucket
 ```console
@@ -627,10 +629,10 @@ Summary
 - distcp operations hdfs dataset to ozone
 - crc checksum validation via a spark-submit job
 
-Prerequisites  
-In Ranger (log into Ranger UI using admin/Supersecret1).  
+**Prerequisites**  
+In Ranger (log into Ranger UI using admin/Supersecret1).
 Select cm_hdfs under the HDFS service.  
-Once you are on the cm_hdfs page, edit the first policy called all-path by clicking its number or the Edit (pencil) button on the right.
+Once you are on the cm_hdfs page, edit the first policy called **all-path** by clicking its number or the Edit (pencil) button on the right.
 ![cm_HDFS](./images/cm_HDFS.png)
 Under Allow Conditions, add your admin user to the users with RWX permissions (e.g: admin)
 ![RangerforHDFS](./images/RangerforHDFS.png)
@@ -640,20 +642,27 @@ The below command creates a bucket by default
 ```console
 ozone fs -mkdir -p ofs://ozone/hive/warehouse/cp/vehicles
 ```
+You should have wget installed on your cluster, so simply download the data from the url and copy into a csv under the tmp folder
+```console
+wget -qO - https://www.fueleconomy.gov/feg/epadata/vehicles.csv | hdfs dfs -copyFromLocal - /tmp/vehicles.csv
+```
+*Note*
+If wget is missing, ssh as root ( user is "centos") to the node and run the below command:
+*sudo yum install -y wget*
 
 Copy files to the bucket
 ```console
 ozone fs -cp hdfs:///tmp/vehicles.csv ofs://ozone/hive/warehouse/cp/vehicles
 ```
-*Note*
-Files downloaded from https://www.fueleconomy.gov/feg/epadata/vehicles.csv were copied into your tmp folder. If they are missing, ssh as root (usually user is "centos") to the node and run the below command:
-*sudo yum install -y wget
-wget -qO - https://www.fueleconomy.gov/feg/epadata/vehicles.csv | hdfs dfs -copyFromLocal - /tmp/vehicles.csv*
 
 Once copied over, list the files in the Ozone bucket:
 ```console
 ozone fs -ls ofs://ozone/hive/warehouse/cp/vehicles
 ```
+
+Expected output
+`-rw-rw-rw-   1 admin admin   20164224 2023-10-03 10:18 ofs://ozone/hive/warehouse/cp/vehicles/vehicles.csv`
+
 - Using the ozone fs -cp command is a very slow way to copy files, because only a single client shell on the gateway will download and upload the files between the systems. For greater scalability, you need to have the cluster move the files in parallel, directly from the source to the destination with multiple servers.
 - Copy files using the hadoop distcp command. This will submit a MapReduce application to Yarn to run a map side job that will, by default, copy the files using multiple servers (4 containers in parallel). This will be much faster than using the ozone cp command for large files, as the hard work of copying all the files is done by the whole cluster, rather than a single machine with less bandwidth when using the ozone fs cp command. Distcp is a powerful tool for moving files in parallel. It offers many options for syncing and atomically copying data, so that no file is missed even if there is an error in communication. 
 
@@ -661,10 +670,35 @@ ozone fs -ls ofs://ozone/hive/warehouse/cp/vehicles
 ozone fs -mkdir -p ofs://ozone/hive/warehouse/distcp/vehicles
 hadoop distcp -m 2 -skipcrccheck hdfs:///tmp/vehicles.csv ofs://ozone/hive/warehouse/distcp/vehicles
 ```
+
+Expected output: a map reduce job is kicked off:
+`Job Counters`  
+`               Launched map tasks=1`  
+`                Other local map tasks=1`  
+`                Total time spent by all maps in occupied slots (ms)=4843`  
+`                Total time spent by all reduces in occupied slots (ms)=0`  
+`                Total time spent by all map tasks (ms)=4843`  
+`                Total vcore-milliseconds taken by all map tasks=4843`  
+`                Total megabyte-milliseconds taken by all map tasks=4959232`  
+`        Map-Reduce Framework`  
+`                Map input records=1`  
+`                Map output records=0`  
+`                Input split bytes=116`  
+`                Spilled Records=0`  
+`                Failed Shuffles=0`  
+`                Merged Map outputs=0`  
+`                GC time elapsed (ms)=34`  
+`                CPU time spent (ms)=6360`  
+`                Physical memory (bytes) snapshot=439640064`  
+`                Virtual memory (bytes) snapshot=3077058560`  
+`                Total committed heap usage (bytes)=859832320`  
+`                Peak Map Physical memory (bytes)=443551744`  
+`                Peak Map Virtual memory (bytes)=3081662464`  
+
+
 Another variant: authentication -- Establishes mutual authentication between the client and the server.
-```console
-hadoop distcp  -Ddfs.data.transfer.protection=authentication -m 2 -skipcrccheck \ hdfs://cdp.54.170.129.255.nip.io:8020/user/admin/* ofs://ozone/my-volume1/my-bucket1
-```
+
+`hadoop distcp  -Ddfs.data.transfer.protection=authentication -m 2 -skipcrccheck \ hdfs://cdp.`**hostname**`.nip.io:8020/user/admin/* ofs://ozone/volsh/bucketsh`
 
 List the Ozone files in /tmp
 ```console
