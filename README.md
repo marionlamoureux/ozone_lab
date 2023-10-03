@@ -391,7 +391,6 @@ Two types of quotas in Ozone:
   - When volume namespace quota is enabled, the total number of buckets under the volume, cannot exceed the volume namespace quota
   - When bucket namespace quota is enabled, the total number of keys under the bucket, cannot exceed the bucket namespace quota.
 
-
 ```console
 ozone sh volume setquota --namespace-quota=2 --space-quota 100MB o3://ozone/volsh
 ozone sh bucket setquota --namespace-quota=10 --space-quota 100MB o3://ozone/volsh/bucketsh
@@ -565,7 +564,6 @@ Ozone supports multiple bucket layouts
   - Recommended to be used with Hadoop file system compatible interfaces rather than s3 interfaces.
   - Awesome for Hive / Impala
   - Trash implementation.
-  
 - OBJECT_STORE (OBS):
   - Flat key-value namespace like S3.
   - Recommended to be used with S3 interfaces.
@@ -573,16 +571,17 @@ Ozone supports multiple bucket layouts
   - Provides support for existing buckets created in older versions.
   - Default behavior is compatible with the Hadoop File system. 
 
-Within Vol1 already created, create a bucket with the FSO layout and display the information about the bucket
+![Ozone-NamespaceManager](./images/Ozone-NamespaceManager.png)  
+Within volsh already created, create a bucket with the FSO layout and display the information about the bucket
 ```console
-ozone sh bucket create /vol1/fso-bucket --layout FILE_SYSTEM_OPTIMIZED
-ozone sh bucket info /vol1/fso-bucket
+ozone sh bucket create /volsh/fso-bucket --layout FILE_SYSTEM_OPTIMIZED
+ozone sh bucket info /volsh/fso-bucket
 ```
 
 Expected output  
 `{  
   "metadata" : { },  
-  "volumeName" : "vol1",  
+  "volumeName" : "volsh",  
   "name" : "fso-bucket",  
   "storageType" : "DISK",  
   "versioning" : false,  
@@ -598,14 +597,14 @@ Expected output
 }`  
 Within Vol1 already created, create a bucket with the OBS layout and display the information about the bucket
 ```console
-ozone sh bucket create /vol1/obs-bucket --layout OBJECT_STORE
-ozone sh bucket info /vol1/obs-bucket
+ozone sh bucket create /volsh/obs-bucket --layout OBJECT_STORE
+ozone sh bucket info /volsh/obs-bucket
 ```
 
 Expected Output  
 `{  
   "metadata" : { },  
-  "volumeName" : "vol1",  
+  "volumeName" : "volsh",  
   "name" : "obs-bucket",  
   "storageType" : "DISK",  
   "versioning" : false,  
