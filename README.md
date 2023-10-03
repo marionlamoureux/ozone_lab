@@ -671,7 +671,7 @@ ozone fs -mkdir -p ofs://ozone/hive/warehouse/distcp/vehicles
 hadoop distcp -m 2 -skipcrccheck hdfs:///tmp/vehicles.csv ofs://ozone/hive/warehouse/distcp/vehicles
 ```
 
-Expected output: a map reduce job is kicked off:
+Expected output: a map reduce job is kicked off:  
 `Job Counters`  
 `               Launched map tasks=1`  
 `                Other local map tasks=1`  
@@ -714,34 +714,34 @@ Summary:
 - Hive via beeline
 - Hive via hue
 
-Prerequisites:
-We need to change some Ranger policy rules so hive can access the Ozone layer, Ozone Manager also needs to access H2s.
+**Prerequisites**  
+We need to change some Ranger policy rules so Hive can access the Ozone layer, Ozone Manager also needs to access H2s.
 We will also check the h2s parameter to allow managed db and table on both ozone and hdfs
 
-Give your users all privileges on HadoopSQL repo in Ranger. Open Ranger UI, access the Hadoop SQL service, add your user to all - database, table, column policy and Save.
+Give your user all privileges on HadoopSQL repo in Ranger. Open Ranger UI, access the Hadoop SQL service, add your user to **all - database, table, column** policy and Save.  
 ![RangerHadoopSQL](./images/RangerHadoopSQL.png)
 
-In the same HadoopSQL tab, add your user to the "all - url" policy, this is needed for Spark
+In the same HadoopSQL tab, add your user to the **all - url** policy, this is needed for Spark:  
 ![RangerAllurls](./images/RangerAllurls.png)
 
 Next, provide “hive” and “yarn” user all privileges on Ozone.
 
-On Ranger UI, go to cm_ozone repo > Edit “all - volume, bucket, key” > Provide “hive” & “yarn” users all privileges.
+On Ranger UI, go to cm_ozone repo > Edit **all - volume, bucket, key** > Provide “hive” & “yarn” users all privileges.
 ![yarn_hiveoncm_ozone](./images/yarn_hiveoncm_ozone.png)
 
-Check HiveServer 2 configuration:
- If we want hive managed databases and tables on both ozone and HDFS, we do need to add a parameter within hiveServer2 to make it happen.
-
-within hive_hs2_config_safety_valve add  metastore.warehouse.tenant.colocation=true
+In Cloudera Manager, check HiveServer 2 configuration:  
+If we want hive managed databases and tables on both ozone and HDFS, we do need to add a parameter within hiveServer2 to make it happen, under Service Hive on Tez
+Within hive_hs2_config_safety_valve add metastore.warehouse.tenant.colocation=true
 ![hiveontezconfig](./images/hiveontezconfig.png)
 
-Detailed operations:
-
+**Detailed operations**  
 You need to add parameter to your spark shell in order to interact with ozone
 Spark-shell
 Let's push some data to ozone first.
 ```console
-ozone fs -put /var/log/hadoop-ozone/ozone-recon.log ofs://ozone/vol1/bucket1/
+ozone sh volume create /volspark
+ozone sh bucket create /volspark/bucketspark
+ozone fs -put /var/log/hadoop-ozone/ozone-recon.log ofs://ozone/volspark/bucketspark/
 ```
 
 Open the Spark Shell
@@ -750,13 +750,14 @@ spark-shell --conf spark.yarn.access.hadoopFileSystems=ofs://ozone
 ```
 within Spark-shell
 ```scala
-val dfofs=spark.read.option("header", "true").option("inferSchema", "true").csv(s"ofs://ozone/vol1/bucket1/ozone-recon.log")
+val dfofs=spark.read.option("header", "true").option("inferSchema", "true").csv(s"ofs://ozone/volspark/bucketspark/ozone-recon.log")
 dfofs.collect()
 ```
-To exit the spark shall
-```scala
-:quit
-```
+Expected output:  
+Dataframe is created:  
+'dfofs: org.apache.spark.sql.DataFrame = [2023-10-02 13:41:22: string, 348 INFO org.apache.hadoop.ozone.recon.ReconServer: STARTUP_MSG: : string]'
+
+To exit the spark shall `:quit`  
 
 Another example
 ```console
@@ -771,8 +772,11 @@ df.createOrReplaceTempView("tempvehicle")
 spark.sql("create table vehicles stored as parquet location 'ofs://ozone/data/vehicles/vehicles' as select * from tempvehicle");
 EOF
 ```
+Expected Output:  
+Parquet file is created
 
-Hive Beeline
+
+**Hive Beeline** 
 create an external table on ozone that will be used later in CDW
 ![Hivetable](./images/Hivetable.png)
 
