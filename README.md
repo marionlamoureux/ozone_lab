@@ -591,6 +591,8 @@ Ozone supports multiple bucket layouts
 Here is a quick overview of how Ozone manages its metadata namespace and handles client requests from different workloads based on the bucket type. Also, the bucket type concept is architecturally designed in an extensible fashion to support multi-protocols like NFS, CSI, and more in the future.  
 
 ![Ozone-NamespaceManager](./images/Ozone-NamespaceManager.png)  
+
+**Detailed operations**  
 Within volsh already created, create a bucket with the FSO layout and display the information about the bucket
 ```console
 ozone sh bucket create /volsh/fso-bucket --layout FILE_SYSTEM_OPTIMIZED
@@ -640,7 +642,7 @@ Expected Output
 
 # 4. Data copy HDFS ⇔ Ozone
 
-**Summary**
+**Summary**  
 - configure Ranger policy rules
 - download dataset, push it to hdfs
 - distcp operations hdfs dataset to ozone
@@ -722,7 +724,7 @@ ozone fs -ls  ofs://ozone/hive/warehouse/distcp/vehicles
 ```
 
 # 5. Hive & Spark on base
-**Summary**
+**Summary**  
 - Configure ranger policy rules
 - Check that hiveServer2 has the right colocation parameters in place
 - Start a spark shell session and perform some operations
@@ -792,7 +794,7 @@ Expected Output:
 Parquet file is created
 
 
-**Hive Beeline** 
+**Hive Beeline**  
 create an external table on ozone that will be used later in CDW
 ![Hivetable](./images/Hivetable.png)
 
@@ -911,7 +913,7 @@ CREATE DATABASE testofs LOCATION 'ofs://ozone/user/alice-db/testofs-ext' MANAGED
 ```
 
 # 6. Ozone S3 gateway
-**Summary steps** 
+**Summary steps**  
 - download and install the aws s3 cli
 - get the om-service-id
 - get an ozone secret key for userX
@@ -923,7 +925,7 @@ CREATE DATABASE testofs LOCATION 'ofs://ozone/user/alice-db/testofs-ext' MANAGED
 - ozone symlink a bucket from your volume to ozone s3v standard volume
 - s3a: which api is compatible with ozone
 
-**Detailed operations**
+**Detailed operations**  
 Configuring Ozone S3 Credentials for AWS CLI:
 The AWS CLI is a popular tool for working with S3 in AWS: [https://aws.amazon.com/cli/](https://aws.amazon.com/cli/) 
 
@@ -968,7 +970,7 @@ openssl x509 -inform DER -outform PEM -in ~/s3g-ca.crt -out /tmp/s3gca.pem
 ```
 You can now create a bucket using the aws s3api command
 
-**s3 api test create and delete bucket**
+**s3 api test create and delete bucket**  
 Replace the hostname of your node in the endpoint url (to find the hostname, type `hostname` in the console.  
 `aws s3api --endpoint https://hostname:9879 --ca-bundle "/tmp/s3gca.pem" create-bucket --bucket=wordcount`
 
@@ -979,7 +981,7 @@ ozone sh bucket list o3://ozone/s3v/
 Replace the hostname of your node in the endpoint url and delete the bucket  
 `aws s3api --endpoint https://hostname:9879 --ca-bundle "/tmp/s3gca.pem" delete-bucket --bucket=wordcount`
 
-**S3 compatibility**  
+**S3 compatibility**   
 Not all s3 native api works with ozone.
 
 |s3api commands|compatible (Y / N)|Example|
@@ -998,7 +1000,7 @@ Not all s3 native api works with ozone.
 |[list-objects-v2](https://docs.aws.amazon.com/cli/latest/reference/s3api/list-objects-v2.html)|Y|aws s3api --endpoint https://hostname:9879 list-objects-v2 --bucket s3abucket --ca-bundle s3gca.pem|
 |[put-object](https://docs.aws.amazon.com/cli/latest/reference/s3api/put-object.html)|Y|aws s3api --endpoint https://hostname:9879 put-object --bucket s3abucket --body s3.properties --key keyfile --debug --ca-bundle s3gca.pem|
 
-**create a link between a s3v bucket and another bucket**
+**create a link between a s3v bucket and another bucket**  
 
 S3 gateway allows access to bucket under /s3v volume. 
 To access an existing bucket not under /s3v volume you can create a symlink in the /s3v volume  
@@ -1011,7 +1013,7 @@ Note: If you are accessing previously created LEGACY buckets via S3 you need to 
 
 
 # 7. Ozone and S3
-**Summary**
+**Summary**  
 - extract the ozone cert alias for s3 operation
 - understand s3v volume
 - get s3 secrets for s3gateway operations
@@ -1019,7 +1021,7 @@ Note: If you are accessing previously created LEGACY buckets via S3 you need to 
 - tips: create a var
 - hive / spark / hadoop s3 operations
 
-**Detailed operations**
+**Detailed operations**  
 S3 gateway allows access to bucket under /s3v volume.
 To access an existing bucket not under /s3v volume you can create a symlink in the /s3v volume
 ```console
@@ -1098,7 +1100,7 @@ sudo $JAVA_HOME/bin/keytool -importkeystore -destkeystore $JAVA_HOME/lib/securit
 Enter destination keystore password:  changeit
 Enter source keystore password: Supersecret1
 
-**Get S3 credentials from Ozone**
+**Get S3 credentials from Ozone**  
 ```console
 kinit admin
 ozone s3 getsecret --om-service-id=ozone
@@ -1107,7 +1109,7 @@ Expected Output
 `export AWS_ACCESS_KEY_ID=<awsAccessKeyOuput>`
 `export AWS_SECRET_ACCESS_KEY=<awsSecretOutput>`
 
-**Get S3 endpoint**
+**Get S3 endpoint**  
 Note: Note: change <hostnameX> to your lab environment fqdn 
 cmdline hostname
 
