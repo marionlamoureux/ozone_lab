@@ -33,8 +33,6 @@ Having a baseline knowledge of Cloudera product
 - Test Ranger privileges
 - Review Ozone Security Settings from the command line
 
-**Detailed operation**
-
 ## 1.1. Enable and Configure Ranger
 In Cloudera Manager, go to the Ozone service.
 ![[ClouderaManager-Ozoneservice.png]](./images/ClouderaManager-Ozoneservice.png)
