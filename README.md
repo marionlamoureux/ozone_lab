@@ -22,7 +22,7 @@ having a baseline knowledge of Cloudera product
 3. [Bucket options FSO-OBS](#3-bucket-options-fso--obs)  
 4. [Data copy HDFS ⇔ Ozone](#4-data-copy-hdfs--ozone)  
 5. [Hive & Spark on base](#5-hive--spark-on-base)  
-6. [Ozone S3 gateway](#6---ozone-s3-gateway)  
+6. [Ozone S3 gateway](#6-ozone-s3-gateway)  
 
 
 # 1 - Security
