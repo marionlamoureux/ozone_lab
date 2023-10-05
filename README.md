@@ -25,7 +25,7 @@ having a baseline knowledge of Cloudera product
 6. [Ozone S3 gateway](#6-ozone-s3-gateway)  
 
 
-# 1 - Security
+# 1. Security
 
 **Summary**
 - Enable Ranger from the Cloudera Manager UI
@@ -35,7 +35,7 @@ having a baseline knowledge of Cloudera product
 
 **Detailed operation**
 
-## 1.1 - Enable and Configure Ranger
+## 1.1. Enable and Configure Ranger
 In Cloudera Manager, go to the Ozone service.
 ![[ClouderaManager-Ozoneservice.png]](./images/ClouderaManager-Ozoneservice.png)
 
@@ -103,7 +103,7 @@ ssh admin@cdp.`node ip`.nip.io
 In windows
 Use putty to ssh to cdp.`node ip`.nip.io
 
-## 1.2 - Test Ranger privileges
+## 1.2. Test Ranger privileges
 
 Authenticate the user Bob with the Authentication Service of the KDC configured in /etc/krb5. conf
 ```console
@@ -161,7 +161,7 @@ ozone sh volume delete o3://ozone/testperms
 kinit admin
 ```
 
-## 1.3 - Reviewing Ozone Security Settings
+## 1.3. Reviewing Ozone Security Settings
 
 Run the following ozone getconf commands to check some Ozone Manager properties:
 ```console
@@ -721,7 +721,7 @@ List the Ozone files in /tmp
 ozone fs -ls  ofs://ozone/hive/warehouse/distcp/vehicles
 ```
 
-# 5 Hive & Spark on base
+# 5. Hive & Spark on base
 **Summary**
 - Configure ranger policy rules
 - Check that hiveServer2 has the right colocation parameters in place
