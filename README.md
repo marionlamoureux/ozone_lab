@@ -14,9 +14,9 @@ having a baseline knowledge of Cloudera product
 
 **TABLE OF CONTENT**  
 
- [Lab 1 - Security](#lab-1-security)  
-     [1.1 - Enable and Configure Ranger](##1.1-Enable-and-Configure-Ranger)  
-     [1.2 - Test Ranger privileges](##1.2-Test-Ranger-privileges)  
+1. [Security](#lab-1-security)  
+1.1 [Enable and Configure Ranger](##1.1-Enable-and-Configure-Ranger)  
+1.2 [Test Ranger privileges](##1.2-Test-Ranger-privileges)  
      [1.3 - Reviewing Ozone Security Settings](1.3-Reviewing-Ozone-Security-Settings)  
  [Lab 2 - Ozone protocol operations](#lab-2-ozone-protocol-operations)  
  [Lab 3 - Bucket options FSO-OBS](#lab-3-bucket-options-fso--obs)  
@@ -27,7 +27,7 @@ having a baseline knowledge of Cloudera product
 
 
 
-# Lab 1 - Security
+# 1 - Security
 
 **Summary**
 - Enable Ranger from the Cloudera Manager UI
