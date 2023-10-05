@@ -13,9 +13,15 @@ having an affinity with command line procedure
 having a baseline knowledge of Cloudera product
 
 **TABLE OF CONTENT**  
-[Lab 1 - Security](#lab-1-security)  
-[Lab 2 - Ozone protocol operations](#lab-2-ozone-protocol-operations)  
-[Lab 3 - Bucket options FSO-OBS](#lab-3-bucket-options-fso--obs)  
+
+ [Lab 1 - Security](#lab-1-security)  
+ [Lab 2 - Ozone protocol operations](#lab-2-ozone-protocol-operations)  
+ [Lab 3 - Bucket options FSO-OBS](#lab-3-bucket-options-fso--obs)  
+ [Lab 4 - Data copy HDFS ⇔ Ozone](#lab-4-data-copy-hdfs--ozone)  
+ [Lab 5 - Hive & Spark on base](#lab-5-hive--spark-on-base)  
+ [Lab 6 - Ozone S3 gateway](#lab-6---ozone-s3-gateway)  
+
+
 
 
 # Lab 1 - Security
