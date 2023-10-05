@@ -15,6 +15,9 @@ having a baseline knowledge of Cloudera product
 **TABLE OF CONTENT**  
 
  [Lab 1 - Security](#lab-1-security)  
+   [1.1 - Enable and Configure Ranger](##1.1-Enable-and-Configure-Ranger)  
+   [1.2 - Test Ranger privileges](##1.2-Test-Ranger-privileges)  
+   [1.3 - Reviewing Ozone Security Settings](1.3-Reviewing-Ozone-Security-Settings)  
  [Lab 2 - Ozone protocol operations](#lab-2-ozone-protocol-operations)  
  [Lab 3 - Bucket options FSO-OBS](#lab-3-bucket-options-fso--obs)  
  [Lab 4 - Data copy HDFS ⇔ Ozone](#lab-4-data-copy-hdfs--ozone)  
@@ -32,7 +35,9 @@ having a baseline knowledge of Cloudera product
 - Test Ranger privileges
 - Review Ozone Security Settings from the command line
 
-## Enable and Configure Ranger
+** Detailed operation**
+
+## 1.1 - Enable and Configure Ranger
 In Cloudera Manager, go to the Ozone service.
 ![[ClouderaManager-Ozoneservice.png]](./images/ClouderaManager-Ozoneservice.png)
 
@@ -58,7 +63,6 @@ Ozone Data Layout
 Ranger - Allow and deny conditions
 ![Ranger-AllowandDenyconditions.png](./images/Ranger-AllowandDenyconditions.png)
 
- 
 **Structure of the Ranger permissions for Ozone** 
 
 ![Ozonepermissionpage.png](./images/Ozonepermissionpage.png)
@@ -91,14 +95,17 @@ Double check you did add your username to the first “allow” condition (e.g. 
 
 Scroll down to the bottom of the page and press Save.
 
-## ssh to the node
+**ssh to the node**
+In the web console
+On the webserver, the link is indicated as `ssh`
+
 In Mac:
 ssh admin@cdp.`node ip`.nip.io
 
 In windows
 Use putty to ssh to cdp.`node ip`.nip.io
 
-## Test Ranger privileges
+## 1.2 - Test Ranger privileges
 
 Authenticate the user Bob with the Authentication Service of the KDC configured in /etc/krb5. conf
 ```console
@@ -156,7 +163,7 @@ ozone sh volume delete o3://ozone/testperms
 kinit admin
 ```
 
-## Reviewing Ozone Security Settings
+## 1.3 - Reviewing Ozone Security Settings
 
 Run the following ozone getconf commands to check some Ozone Manager properties:
 ```console
