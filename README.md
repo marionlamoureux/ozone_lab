@@ -15,14 +15,14 @@ having a baseline knowledge of Cloudera product
 **TABLE OF CONTENT**  
 
 1. [Security](#lab-1-security)  
-1.1. [Enable and Configure Ranger](##1.1-Enable-and-Configure-Ranger)  
-1.2. [Test Ranger privileges](##1.2-Test-Ranger-privileges)  
-1.3. [Reviewing Ozone Security Settings](1.3-Reviewing-Ozone-Security-Settings)  
-2. [Ozone protocol operations](#lab-2-ozone-protocol-operations)  
-3. [Bucket options FSO-OBS](#lab-3-bucket-options-fso--obs)  
-4. [Data copy HDFS ⇔ Ozone](#lab-4-data-copy-hdfs--ozone)  
-5. [Hive & Spark on base](#lab-5-hive--spark-on-base)  
-6. [Ozone S3 gateway](#lab-6---ozone-s3-gateway)  
+1.1. [Enable and Configure Ranger](#11---enable-and-configure-ranger)  
+1.2. [Test Ranger privileges](#12---test-ranger-privileges)  
+1.3. [Reviewing Ozone Security Settings](#13---reviewing-ozone-security-settings)  
+2. [Ozone protocol operations](#2-ozone-protocol-operations)  
+3. [Bucket options FSO-OBS](#3-bucket-options-fso--obs)  
+4. [Data copy HDFS ⇔ Ozone](#4-data-copy-hdfs--ozone)  
+5. [Hive & Spark on base](#5-hive--spark-on-base)  
+6. [Ozone S3 gateway](#6---ozone-s3-gateway)  
 
 
 # 1 - Security
