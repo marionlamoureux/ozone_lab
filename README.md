@@ -13,7 +13,7 @@ having an affinity with command line procedure
 having a baseline knowledge of Cloudera product
 
 **TABLE OF CONTENT**  
-1. [Lab 1 Security](# Lab 1 Security)
+1. [Lab 1 Security]([# Lab 1 Security](https://github.com/marionlamoureux/ozone_lab/blob/main/README.md#lab-1-security))
 
 # Lab 1 Security
 
