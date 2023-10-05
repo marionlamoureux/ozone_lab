@@ -399,7 +399,7 @@ ozone sh volume info o3://ozone/volsh
 ozone sh bucket info o3://ozone/volsh/bucketsh
 ```
 
-#### Quota operations
+#### 2.3. Quota operations
 Set a quota 
 
 Two types of quotas in Ozone:
@@ -463,7 +463,7 @@ ozone sh bucket info o3://ozone/volsh/bucketsh
 }
 `
 
-#### Symlinks
+#### 2.4. Symlinks
 
 Symlinks are relevant when s3 operation required. You do not create a bucket within the volume srv but you symlink a bucket in it: by default, all the buckets of the /s3v volume can be accessed with S3 interface but only the (Ozone) buckets of the /s3v volumes are exposed.
 To make any other buckets available with the S3 interface a “symbolic linked” bucket can be created between 2 buckets like so:  
@@ -477,7 +477,7 @@ Ozone supports RATIS and Erasure Coding Replication types.
 Default replication type is RATIS and the replication factor is 3. Copies of container replicas are maintained across the cluster. RATIS 3 replication has 200% storage overhead.
 For cold and warm data with low I/O requirement EC storage is available. 50% replication overhead. 
 
-#### Create Erasure Coded(EC) buckets/keys
+#### 2.5. Create Erasure Coded(EC) buckets/keys
 
 ```console
 ozone sh bucket create /volsh/ec5-bucket1 -t EC -r rs-3-2-1024k
@@ -638,7 +638,7 @@ Expected Output
   "link" : false  
 }`  
 
-# 4. data copy HDFS ⇔ Ozone
+# 4. Data copy HDFS ⇔ Ozone
 
 **Summary**
 - configure Ranger policy rules
