@@ -13,10 +13,9 @@ having an affinity with command line procedure
 having a baseline knowledge of Cloudera product
 
 **TABLE OF CONTENT**  
-[Lab 1 - Security](https://github.com/marionlamoureux/ozone_lab/blob/main/README.md#lab-1-security)
-[Lab 1 - Security](#lab-1-security)
-
-[Lab 2 - Ozone protocol operations](https://github.com/marionlamoureux/ozone_lab/blob/main/README.md#lab-2-ozone-protocol-operations)
+[Lab 1 - Security](https://github.com/marionlamoureux/ozone_lab/blob/main/README.md#lab-1-security)  
+[Lab 1 - Security](#lab-1-security)  
+[Lab 2 - Ozone protocol operations](https://github.com/marionlamoureux/ozone_lab/blob/main/README.md#lab-2-ozone-protocol-operations)  
 
 
 # Lab 1 - Security
