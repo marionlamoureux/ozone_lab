@@ -5,12 +5,12 @@ We will also explore some Cloudera security elements and how Ozone integrates br
 
 *Note: This lab is hosted on the edge2Ai 1 node deployment. It's meant for functional testing and not performance testing*
 
-*Custodian Prerequisites*
-having an internet connection  where you can ping websites hosted with open proxies. 
-have a command line interface where you can perform ssh
-we provide a web-ui command line interface but could be blocked by the corporate firewall from your organization
-having an affinity with command line procedure
-having a baseline knowledge of Cloudera product
+*Custodian Prerequisites*  
+Having an internet connection  where you can ping websites hosted with open proxies.   
+Have a command line interface where you can perform ssh  
+We provide a web-ui command line interface but could be blocked by the corporate firewall from your organization  
+Having an affinity with command line procedure  
+Having a baseline knowledge of Cloudera product  
 
 **TABLE OF CONTENT**  
 
