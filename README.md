@@ -186,9 +186,8 @@ Expected Output
 Kind: OzoneToken, Service: 10.0.1.106:9862, Ident: (OzoneToken owner=admin@WORKSHOP.COM, renewer=admin, realUser=, issueDate=2023-10-02T14:19:46.272Z, maxDate=2023-10-09T14:19:46.272Z, sequenceNumber=1, masterKeyId=1, strToSign=null, signature=null, awsAccessKeyId=null, omServiceId=ozone)
 Token persisted to /tmp/ozone.token successfully!` 
 
-# Lab 2 Ozone protocol operations
-
-### Ozone Protocols:
+# 2. Ozone protocol operations
+## 2.1. Ozone Protocols
 
 Ozone has multiple protocols to work with for a variety of operations. There is no ONE PROTOCOL THAT RULES THEM ALL yet.
 
@@ -200,12 +199,12 @@ Ozone is a multi-protocol storage system with support for the following interfac
 - **o3fs**: A bucket-rooted Hadoop Compatible file system interface. 
 - **o3**: An object store interface that can be used from the Ozone shell.
 
-### Ozone CLIs
+**Ozone CLIs**
 Ozone CLI is used to access Ozone. 
 - ozone **fs** - Runs Hadoop filesystem compatible commands on FSO(File System Optimized) and LEGACY buckets. Compatible with ofs and o3fs interfaces. Supports trash implementation.
 - ozone **sh** - Ozone command shell interface to access Ozone as a key-value store. Command format is: ozone sh object action url. Object can be volume/bucket/key. Compatible with o3 interface.
 
-#### Ozone fs
+**Ozone fs**
 Summary operations
 - interact with HDFS
 - interact with ozone
@@ -571,8 +570,8 @@ ozone sh bucket info /volsh/bucketrep
 }`  
 
 
-# Lab 3 Bucket options FSO / OBS
-Summary:
+# 3. Bucket options FSO / OBS
+**Summary**  
 - 3 bucket layouts and why
 - create a bucket FSO, OBS
 
@@ -640,9 +639,9 @@ Expected Output
   "link" : false  
 }`  
 
-# Lab 4 data copy HDFS ⇔ Ozone
+# 4. data copy HDFS ⇔ Ozone
 
-Summary
+**Summary**
 - configure Ranger policy rules
 - download dataset, push it to hdfs
 - distcp operations hdfs dataset to ozone
@@ -723,8 +722,8 @@ List the Ozone files in /tmp
 ozone fs -ls  ofs://ozone/hive/warehouse/distcp/vehicles
 ```
 
-# Lab 5 Hive & Spark on base
-Summary:
+# 5 Hive & Spark on base
+**Summary**
 - Configure ranger policy rules
 - Check that hiveServer2 has the right colocation parameters in place
 - Start a spark shell session and perform some operations
@@ -912,8 +911,8 @@ and run
 CREATE DATABASE testofs LOCATION 'ofs://ozone/user/alice-db/testofs-ext' MANAGEDLOCATION 'ofs://ozone/user/alice-db/testofs-managed' ;
 ```
 
-# Lab 6 - Ozone S3 gateway
-**Summary steps**  :  
+# 6. Ozone S3 gateway
+**Summary steps** 
 - download and install the aws s3 cli
 - get the om-service-id
 - get an ozone secret key for userX
@@ -1012,7 +1011,7 @@ ozone sh bucket info /s3v/obs-bucket-link
 Note: If you are accessing previously created LEGACY buckets via S3 you need to disable ozone.om.enable.filesystem.paths(default is True). This configuration allows LEGACY buckets to be compatible with Hadoop FileSystem semantics when enabled. When this config is disabled, LEGACY buckets are compatible with S3 semantics.
 
 
-# Lab 7 ozone and S3a 
+# 7. Ozone and S3
 **Summary**
 - extract the ozone cert alias for s3 operation
 - understand s3v volume
@@ -1022,7 +1021,6 @@ Note: If you are accessing previously created LEGACY buckets via S3 you need to 
 - hive / spark / hadoop s3 operations
 
 **Detailed operations**
-
 S3 gateway allows access to bucket under /s3v volume.
 To access an existing bucket not under /s3v volume you can create a symlink in the /s3v volume
 ```console
@@ -1117,7 +1115,6 @@ cmdline hostname
 Ozone > Instances > S3 Gateway > S3 Gateway Web UI
 Get endpoint : https://<hostnameX>:9879
 export S3_ENTPOINT='https://<hostnameX>:9879'
-
 
 Access Ozone using hadoop CLI via S3
 
