@@ -12,8 +12,8 @@ we provide a web-ui command line interface but could be blocked by the corporate
 having an affinity with command line procedure
 having a baseline knowledge of Cloudera product
 
-**TABLE OF CONTENT**
-[Lab 1 Security](# Lab 1 Security)
+**TABLE OF CONTENT**  
+1. [Lab 1 Security](# Lab 1 Security)
 
 # Lab 1 Security
 
