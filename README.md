@@ -25,8 +25,6 @@ having a baseline knowledge of Cloudera product
 6. [Ozone S3 gateway](#lab-6---ozone-s3-gateway)  
 
 
-
-
 # 1 - Security
 
 **Summary**
@@ -35,7 +33,7 @@ having a baseline knowledge of Cloudera product
 - Test Ranger privileges
 - Review Ozone Security Settings from the command line
 
-** Detailed operation**
+**Detailed operation**
 
 ## 1.1 - Enable and Configure Ranger
 In Cloudera Manager, go to the Ozone service.
@@ -187,8 +185,9 @@ Kind: OzoneToken, Service: 10.0.1.106:9862, Ident: (OzoneToken owner=admin@WORKS
 Token persisted to /tmp/ozone.token successfully!` 
 
 # 2. Ozone protocol operations
-## 2.1. Ozone Protocols
 
+**Overview of Ozone Protocols and CLIs**
+*Protocoles*
 Ozone has multiple protocols to work with for a variety of operations. There is no ONE PROTOCOL THAT RULES THEM ALL yet.
 
 ![Ozone protocoles.png](./images/Ozoneprotocoles.png)
@@ -199,13 +198,13 @@ Ozone is a multi-protocol storage system with support for the following interfac
 - **o3fs**: A bucket-rooted Hadoop Compatible file system interface. 
 - **o3**: An object store interface that can be used from the Ozone shell.
 
-**Ozone CLIs**
+*CLIs*
 Ozone CLI is used to access Ozone. 
 - ozone **fs** - Runs Hadoop filesystem compatible commands on FSO(File System Optimized) and LEGACY buckets. Compatible with ofs and o3fs interfaces. Supports trash implementation.
 - ozone **sh** - Ozone command shell interface to access Ozone as a key-value store. Command format is: ozone sh object action url. Object can be volume/bucket/key. Compatible with o3 interface.
 
-**Ozone fs**
-Summary operations
+## 2.1. Ozone fs
+**Summary**
 - interact with HDFS
 - interact with ozone
 - create a volume
@@ -324,8 +323,8 @@ ozone sh bucket delete o3://ozone/volfs/bucketfs
 ozone sh volume delete o3://ozone/volfs
 ```
 
-#### Ozone sh
-summary operations:
+## 2.2. Ozone sh
+**Summary operations**
 - create a volume
 - create a bucket
 - list operations
@@ -334,7 +333,7 @@ summary operations:
 - symlinks 
 Other operations will be done in further section such as EC, replications, bucket layout type
 
-Detailed operations:
+**Detailed operations**
 Create a volume /volsh
 ```console
 ozone sh volume create o3://ozone/volsh  ### or ozone sh volume create /volsh
